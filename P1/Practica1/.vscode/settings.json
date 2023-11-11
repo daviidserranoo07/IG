@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "cmath": "c",
+        "random": "c",
+        "ostream": "c",
+        "deque": "c",
+        "string": "c",
+        "vector": "c",
+        "*.tcc": "c",
+        "unordered_map": "c",
+        "array": "c",
+        "string_view": "c"
+    }
+}
