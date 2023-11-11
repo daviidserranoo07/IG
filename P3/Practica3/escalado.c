@@ -11,3 +11,7 @@ Escalado::Escalado(float x, float y, float z){
         scale[1]=y;
         scale[2]=z;
 }
+
+void Escalado::apply(){
+
+}

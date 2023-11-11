@@ -9,6 +9,7 @@ private:
 public:
     Escalado();
     Escalado(float x, float y, float z);
+    virtual void apply();
 };
 
 #endif

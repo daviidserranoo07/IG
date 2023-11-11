@@ -8,6 +8,7 @@ private:
     float rotation[3];
 public:
     Rotacion();
+    virtual void apply();
 };
 
 #endif

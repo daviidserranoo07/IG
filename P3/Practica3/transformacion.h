@@ -8,7 +8,7 @@ private:
 
 public:
     Transformacion();
-    virtual void draw( ) = 0; // Dibuja el objeto
+    virtual void apply( ) = 0; // Dibuja el objeto
 };
 
 #endif

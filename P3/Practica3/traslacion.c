@@ -11,3 +11,7 @@ Traslacion::Traslacion(float x, float y, float z){
     translation[1]=y;
     translation[2]=z;
 }
+
+void Traslacion::apply(){
+    
+}

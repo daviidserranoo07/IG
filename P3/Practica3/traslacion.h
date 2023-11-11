@@ -9,6 +9,7 @@ private:
 public:
     Traslacion();
     Traslacion(float x, float y, float z);
+    virtual void apply();
 };
 
 #endif

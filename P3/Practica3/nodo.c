@@ -3,5 +3,5 @@
 using namespace std;
 
 Nodo::Nodo(){
-    children.resize(0);
+    //children.resize(0);
 }
