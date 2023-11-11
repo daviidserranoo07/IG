@@ -1,4 +1,5 @@
 #include "escalado.h"
+#include <GL/glut.h>
 
 using namespace std;
 
@@ -13,5 +14,5 @@ Escalado::Escalado(float x, float y, float z){
 }
 
 void Escalado::apply(){
-
+        glScalef(scale[0],scale[1],scale[2]);
 }

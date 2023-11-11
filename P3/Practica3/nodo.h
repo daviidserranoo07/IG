@@ -7,7 +7,6 @@ class Nodo{
 private:
     std::vector<Nodo*> children;
 public:
-    Nodo();
 };
 
 #endif

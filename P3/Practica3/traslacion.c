@@ -1,4 +1,5 @@
 #include "traslacion.h"
+#include <GL/glut.h>
 
 using namespace std;
 
@@ -13,5 +14,5 @@ Traslacion::Traslacion(float x, float y, float z){
 }
 
 void Traslacion::apply(){
-    
+    glTranslatef(translation[0],translation[1],translation[2]);
 }
