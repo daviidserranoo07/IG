@@ -5,9 +5,10 @@
 
 class Traslacion : public Nodo{
 private:
-
+    float translation[3];
 public:
     Traslacion();
+    Traslacion(float x, float y, float z);
 };
 
 #endif

@@ -5,7 +5,7 @@
 
 class Rotacion : public Nodo{
 private:
-
+    float rotation[3];
 public:
     Rotacion();
 };
