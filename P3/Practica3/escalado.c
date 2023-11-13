@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Escalado::Escalado(){
+Escalado::Escalado() : Transformacion(){
 
 }
 

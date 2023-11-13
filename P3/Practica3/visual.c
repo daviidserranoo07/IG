@@ -1,10 +1,10 @@
 /*	Prácticas de Informática Gráfica
 
-	Grupo C					Curso 2022-23
+	Grupo C					Curso 2023-24
  	
 	Codigo base para la realización de las practicas de IG
 	
-	Estudiante: 
+	Estudiante: David Serrano Domínguez
 
 	Programa principal
 =======================================================

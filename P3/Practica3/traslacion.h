@@ -1,9 +1,9 @@
 #ifndef traslacion_h
 #define traslacion_h
 
-#include "nodo.h"
+#include "transformacion.h"
 
-class Traslacion : public Nodo{
+class Traslacion : public Transformacion{
 private:
     float translation[3];
 public:

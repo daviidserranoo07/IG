@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Traslacion::Traslacion(){
+Traslacion::Traslacion() : Transformacion(){
 
 }
 

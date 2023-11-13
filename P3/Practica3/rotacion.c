@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Rotacion::Rotacion(){
+Rotacion::Rotacion() : Transformacion(){
 
 }
 

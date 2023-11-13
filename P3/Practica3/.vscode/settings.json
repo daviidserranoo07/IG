@@ -55,6 +55,8 @@
         "nodo.h": "c",
         "traslacion.h": "c",
         "escalado.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "glut.h": "c",
+        "transformacion.h": "c"
     }
 }

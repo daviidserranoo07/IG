@@ -1,9 +1,9 @@
 #ifndef escalado_h
 #define escalado_h
 
-#include "nodo.h"
+#include "transformacion.h"
 
-class Escalado : public Nodo{
+class Escalado : public Transformacion{
 private:
     float scale[3];
 public:

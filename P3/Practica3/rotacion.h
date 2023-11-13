@@ -1,9 +1,9 @@
 #ifndef rotacion_h
 #define rotacion_h
 
-#include "nodo.h"
+#include "transformacion.h"
 
-class Rotacion : public Nodo{
+class Rotacion : public Transformacion{
 private:
     float rotation[3];
     float angle;

@@ -85,5 +85,5 @@ Malla::Malla(string nombre){
   normalizar();
 }
 
-Malla::Malla(){
+Malla::Malla() : Objeto3D(){
 }
