@@ -63,6 +63,4 @@ void Nodo::draw(){
             dynamic_cast<Escalado*>(child)->draw();
         }
     }
-
-    //child->draw();
 }
