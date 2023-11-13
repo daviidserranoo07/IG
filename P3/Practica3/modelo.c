@@ -141,6 +141,8 @@ Ejes ejesCoordenadas;
 Procedimiento de dibujo del modelo. Es llamado por glut cada vez que se debe redibujar.
 
 **/
+Malla mallaPLY("./plys/sin_nombre.ply");
+Traslacion transformacion(10.0,10.0,10.0);
 
 void Dibuja (void)
 {
@@ -161,6 +163,8 @@ void Dibuja (void)
   glEnable(GL_COLOR_MATERIAL);
   glPointSize(5);
 
+  transformacion.addChild(&mallaPLY);
+
   if(iluminacion){
     glEnable(GL_LIGHTING);
   }else{
@@ -169,7 +173,7 @@ void Dibuja (void)
 
   glColor4fv(color);
   if(dibujo){
-    
+    mallaPLY.draw();
   }else{
     
   }
@@ -237,7 +241,9 @@ void DibujaSuperficie(void)
 
 
 Malla malla;
-
+/**
+ * Función que dibuja solo el PLY pasado como argumento cuando hacemos la llamada ./practicaIG --load /ruta/ply
+*/
 void DibujaPLY(void)
 {
   static GLfloat  pos[4] = { 5.0, 5.0, 10.0, 0.0 },color2[4]={1,0.05,0.052,1},color3[4]={1.0,0.5,0,1},color4[4]={1.0,0.8,0.3,1};	// Posicion de la fuente de luz

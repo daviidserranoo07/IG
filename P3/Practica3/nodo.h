@@ -15,6 +15,7 @@ public:
     void addChild(Nodo* child);
     std::vector<Nodo*> getChildren();
     void removeChildren(Nodo* child);
+    virtual void draw() = 0;
 };
 
 #endif

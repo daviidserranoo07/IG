@@ -13,6 +13,6 @@ Traslacion::Traslacion(float x, float y, float z){
     translation[2]=z;
 }
 
-void Traslacion::apply(){
+void Traslacion::draw(){
     glTranslatef(translation[0],translation[1],translation[2]);
 }
