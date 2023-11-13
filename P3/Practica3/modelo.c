@@ -142,11 +142,6 @@ Procedimiento de dibujo del modelo. Es llamado por glut cada vez que se debe red
 
 **/
 
-Malla mallaPLY1("./plys/beethoven.ply");
-Malla mallaPLY2("./plys/big_dodge.ply");
-Malla mallaPLY3("./plys/footbones.ply");
-//Superficie superficie("./plys/perfil.ply",10);
-
 void Dibuja (void)
 {
   static GLfloat  pos[4] = { 5.0, 5.0, 10.0, 0.0 },color2[4]={1,0.05,0.052,1},color3[4]={1.0,0.5,0,1},color4[4]={1.0,0.8,0.3,1};	// Posicion de la fuente de luz
@@ -174,9 +169,9 @@ void Dibuja (void)
 
   glColor4fv(color);
   if(dibujo){
-    mallaPLY1.drawSmooth();
+    
   }else{
-    mallaPLY1.drawFlat();
+    
   }
   
   // Dibuja el modelo (A rellenar en prácticas 1,2 y 3)

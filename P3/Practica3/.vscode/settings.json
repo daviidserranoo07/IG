@@ -54,6 +54,7 @@
         "stdio.h": "c",
         "nodo.h": "c",
         "traslacion.h": "c",
-        "escalado.h": "c"
+        "escalado.h": "c",
+        "stdlib.h": "c"
     }
 }
