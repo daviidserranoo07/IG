@@ -48,7 +48,7 @@ Inicializa el modelo y de las variables globales
 
 **/
 int modo;
-bool iluminacion, dibujo, obtener;
+bool iluminacion, dibujo, obtener,jerarquia;
 string ruta;
 
 void initModel (){
@@ -57,6 +57,7 @@ void initModel (){
   ruta="";
   dibujo=false;
   obtener=false;
+  jerarquia=false;
 }
 
 /**
@@ -141,8 +142,11 @@ Ejes ejesCoordenadas;
 Procedimiento de dibujo del modelo. Es llamado por glut cada vez que se debe redibujar.
 
 **/
-Malla mallaPLY("./plys/sin_nombre.ply");
-Traslacion transformacion(10.0,10.0,10.0);
+Nodo nodo(NULL);
+Malla mallaPLY("./plys/beethoven.ply");
+Traslacion transformacion(0.0,0.0,5.0);
+Rotacion rotacion(-45,0.0,0.0,1.0);
+
 
 void Dibuja (void)
 {
@@ -163,7 +167,8 @@ void Dibuja (void)
   glEnable(GL_COLOR_MATERIAL);
   glPointSize(5);
 
-  transformacion.addChild(&mallaPLY);
+  
+  //transformacion.addChild(&mallaPLY);
 
   if(iluminacion){
     glEnable(GL_LIGHTING);
@@ -171,13 +176,17 @@ void Dibuja (void)
     glDisable(GL_LIGHTING);
   }
 
-  glColor4fv(color);
-  if(dibujo){
-    mallaPLY.draw();
-  }else{
-    
+  vector<Nodo*> hijos;
+  if(!jerarquia){
+    nodo.addChild(&transformacion);
+    nodo.addChild(&rotacion);
+    nodo.addChild(&mallaPLY);
+    jerarquia=true;
   }
-  
+
+  glColor4fv(color);
+  nodo.draw();
+
   // Dibuja el modelo (A rellenar en prácticas 1,2 y 3)
 
   glPolygonMode(GL_FRONT_AND_BACK,modo);   

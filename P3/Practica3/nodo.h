@@ -9,13 +9,14 @@ private:
     std::vector<Nodo*> children;
 public:
     Nodo();
+    Nodo(Nodo* parent);
     Nodo(Nodo* parent, std::vector<Nodo*> children);
     void setParent(Nodo* parent);
     Nodo* getParent();
     void addChild(Nodo* child);
     std::vector<Nodo*> getChildren();
     void removeChildren(Nodo* child);
-    virtual void draw() = 0;
+    virtual void draw();
 };
 
 #endif

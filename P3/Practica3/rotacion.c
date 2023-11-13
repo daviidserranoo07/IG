@@ -14,6 +14,6 @@ Rotacion::Rotacion(float angle, float x, float y, float z){
     rotation[2]=z;
 }
 
-void Rotacion::apply(){
+void Rotacion::draw(){
     glRotatef(angle,rotation[0],rotation[1],rotation[2]);
 }
