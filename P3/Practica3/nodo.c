@@ -1,7 +1,8 @@
-#include "nodo.h"
 #include <vector>
 #include <stdlib.h>
 #include <iostream>
+#include <GL/glut.h>
+#include "nodo.h"
 #include "malla.h"
 #include "rotacion.h"
 #include "traslacion.h"
@@ -50,7 +51,7 @@ void Nodo::removeChildren(Nodo* child){
 }
 
 void Nodo::draw(){
-
+    
 }
 
 void Nodo::drawJerarquia(){
@@ -59,9 +60,10 @@ void Nodo::drawJerarquia(){
     for(int i=0;i<hijos.size();i++){
         child=hijos[i];
         child->draw();
+        if(child!=NULL){
+            child->drawJerarquia();
+        }
     }
-    if(child!=NULL){
-        child->drawJerarquia();
-    }
+    
     
 }

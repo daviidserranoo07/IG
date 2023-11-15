@@ -9,7 +9,7 @@ private:
 public:
 	Superficie();
 	Superficie(std::string path,int n);
-	virtual void draw();
+	void draw();
 	void addTapaInferior();
 	void addTapaSuperior();
 };

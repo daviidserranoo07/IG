@@ -144,7 +144,9 @@ Procedimiento de dibujo del modelo. Es llamado por glut cada vez que se debe red
 **/
 Nodo nodo(NULL);
 Malla* mallaPLY = new Malla("./plys/beethoven.ply");
+Malla* mallaPLY2 = new Malla("./plys/big_dodge");
 Traslacion* transformacion = new Traslacion(0.0,0.0,5.0);
+Traslacion* transformacion2 = new Traslacion(5.0,0.0,0.0);
 Rotacion* rotacion = new Rotacion(-45,0.0,0.0,1.0);
 
 
@@ -181,6 +183,8 @@ void Dibuja (void)
     nodo.addChild(rotacion);
     rotacion->addChild(transformacion);
     transformacion->addChild(mallaPLY);
+    mallaPLY->addChild(transformacion2);
+    transformacion2->addChild(mallaPLY2);
     jerarquia=true;
   }
   mallaPLY->changeDraw(dibujo);
@@ -233,12 +237,8 @@ void DibujaSuperficie(void)
     obtener=true;
   }
 
-  if(dibujo){
-    superficie.drawSmooth();
-  }else{
-    superficie.drawFlat();
-  }
-
+  superficie.changeDraw(dibujo);
+  superficie.draw();
   
   // Dibuja el modelo (A rellenar en prácticas 1,2 y 3)
 
@@ -284,11 +284,8 @@ void DibujaPLY(void)
     malla=obtenerMalla();
     obtener=true;
   }
-  if(dibujo){
-    malla.drawSmooth();
-  }else{
-    malla.drawFlat();
-  }
+  malla.changeDraw(dibujo);
+  malla.draw();
 
   // Dibuja el modelo (A rellenar en prácticas 1,2 y 3)
 

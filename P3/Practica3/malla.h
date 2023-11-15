@@ -4,14 +4,14 @@
 
 class Malla : public Objeto3D{
 protected:
-	bool dibujo;
+	static bool dibujo;
 public:
 	Malla(std::string nombre);
 	Malla();
 	virtual void draw();
 	void calcularNormales();
 	void drawFlat();
-	void changeDraw(bool dibujo);
+	static void changeDraw(bool cambio);
 	void drawSmooth();
 	void normalizar();
 	bool getDibujo();

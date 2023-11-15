@@ -69,7 +69,11 @@ Superficie::Superficie(string path,int n) : Malla(){
 }
 
 void Superficie::draw(){
-
+  if(dibujo){
+    drawSmooth();
+  }else{
+    drawFlat();
+  }
 }
 
 Superficie::Superficie() : Malla(){

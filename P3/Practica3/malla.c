@@ -8,6 +8,8 @@
 
 using namespace std;
 
+bool Malla::dibujo=false;
+
 void Malla::calcularNormales(){
   float normal[3];
   int indice=0;
@@ -75,7 +77,7 @@ void Malla::drawFlat(){
   }glEnd();
 }
 void Malla::draw() {
-  if(dibujo){
+  if(Malla::dibujo){
     drawSmooth();
   }else{
     drawFlat();
@@ -89,9 +91,11 @@ Malla::Malla(string nombre){
   normalizar();
 }
 
-void Malla::changeDraw(bool dibujo){
-  this->dibujo=dibujo;
+void Malla::changeDraw(bool cambio){
+  dibujo=cambio;
 }
 
 Malla::Malla() : Objeto3D(){
+
 }
+
