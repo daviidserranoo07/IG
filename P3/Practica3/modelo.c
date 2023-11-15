@@ -143,9 +143,9 @@ Procedimiento de dibujo del modelo. Es llamado por glut cada vez que se debe red
 
 **/
 Nodo nodo(NULL);
-Malla mallaPLY("./plys/beethoven.ply");
-Traslacion transformacion(0.0,0.0,5.0);
-Rotacion rotacion(-45,0.0,0.0,1.0);
+Malla* mallaPLY = new Malla("./plys/beethoven.ply");
+Traslacion* transformacion = new Traslacion(0.0,0.0,5.0);
+Rotacion* rotacion = new Rotacion(-45,0.0,0.0,1.0);
 
 
 void Dibuja (void)
@@ -178,14 +178,15 @@ void Dibuja (void)
 
   vector<Nodo*> hijos;
   if(!jerarquia){
-    nodo.addChild(&transformacion);
-    nodo.addChild(&rotacion);
-    nodo.addChild(&mallaPLY);
+    nodo.addChild(rotacion);
+    rotacion->addChild(transformacion);
+    transformacion->addChild(mallaPLY);
     jerarquia=true;
   }
-
+  mallaPLY->changeDraw(dibujo);
+  nodo.drawJerarquia();
   glColor4fv(color);
-  nodo.draw();
+  
 
   // Dibuja el modelo (A rellenar en prácticas 1,2 y 3)
 

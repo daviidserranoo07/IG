@@ -74,8 +74,12 @@ void Malla::drawFlat(){
       }
   }glEnd();
 }
-void Malla::draw(){
-
+void Malla::draw() {
+  if(dibujo){
+    drawSmooth();
+  }else{
+    drawFlat();
+  }
 }
 
 Malla::Malla(string nombre){
@@ -83,6 +87,10 @@ Malla::Malla(string nombre){
   normalesVertice.resize(vertices_ply.size());
   calcularNormales();
   normalizar();
+}
+
+void Malla::changeDraw(bool dibujo){
+  this->dibujo=dibujo;
 }
 
 Malla::Malla() : Objeto3D(){

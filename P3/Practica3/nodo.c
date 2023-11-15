@@ -33,6 +33,7 @@ Nodo* Nodo::getParent(){
 
 void Nodo::addChild(Nodo* child){
     children.push_back(child);
+    child->setParent(this);
 }
 
 vector<Nodo*> Nodo::getChildren(){
@@ -49,18 +50,18 @@ void Nodo::removeChildren(Nodo* child){
 }
 
 void Nodo::draw(){
+
+}
+
+void Nodo::drawJerarquia(){
     vector<Nodo*> hijos = children;
-    Nodo* child;
+    Nodo* child=NULL;
     for(int i=0;i<hijos.size();i++){
         child=hijos[i];
-        if(dynamic_cast<Malla*>(child)!=nullptr){
-            dynamic_cast<Malla*>(child)->drawSmooth();
-        }else if(dynamic_cast<Traslacion*>(child)!=nullptr){
-            dynamic_cast<Traslacion*>(child)->draw();
-        }else if(dynamic_cast<Rotacion*>(child)!=nullptr){
-            dynamic_cast<Rotacion*>(child)->draw();
-        }else if(dynamic_cast<Escalado*>(child)!=nullptr){
-            dynamic_cast<Escalado*>(child)->draw();
-        }
+        child->draw();
     }
+    if(child!=NULL){
+        child->drawJerarquia();
+    }
+    
 }

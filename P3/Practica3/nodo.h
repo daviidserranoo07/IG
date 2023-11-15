@@ -17,6 +17,7 @@ public:
     std::vector<Nodo*> getChildren();
     void removeChildren(Nodo* child);
     virtual void draw();
+    void drawJerarquia();
 };
 
 #endif
