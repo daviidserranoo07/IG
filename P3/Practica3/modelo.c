@@ -49,6 +49,7 @@ Inicializa el modelo y de las variables globales
 **/
 int modo;
 bool iluminacion, dibujo, obtener,jerarquia;
+float rotar,traslacion, traslacion2;
 string ruta;
 
 void initModel (){
@@ -58,6 +59,9 @@ void initModel (){
   dibujo=false;
   obtener=false;
   jerarquia=false;
+  rotar=0;
+  traslacion=0;
+  traslacion2=0;
 }
 
 /**
@@ -83,6 +87,8 @@ Malla obtenerMalla(){
   return malla;
 }
 
+bool Objeto3D::dibujo=false;
+
 void Objeto3D::calcularNormal(float x1, float y1, float z1, float x2, float y2, float z2,float x3, float y3, float z3, float resultado[3]){
   float a1=x1-x3,
         a2=y1-y3,
@@ -103,6 +109,77 @@ void Objeto3D::calcularNormal(float x1, float y1, float z1, float x2, float y2, 
     resultado[2]=resultado[2]/longitud;
   }
   
+}
+
+void Objeto3D::calcularNormales(){
+  float normal[3];
+  int indice=0;
+  for(int i=0;i<caras_ply.size()/3;i++){
+    indice=i*3;
+    calcularNormal(vertices_ply[caras_ply[indice]*3],vertices_ply[caras_ply[indice]*3+1],vertices_ply[caras_ply[indice]*3+2],
+                   vertices_ply[caras_ply[indice+1]*3],vertices_ply[caras_ply[indice+1]*3+1],vertices_ply[caras_ply[indice+1]*3+2],
+                   vertices_ply[caras_ply[indice+2]*3],vertices_ply[caras_ply[indice+2]*3+1],vertices_ply[caras_ply[indice+2]*3+2],normal);
+    
+    for(int j=0;j<3;j++){
+      normalesVertice[caras_ply[indice]*3+j]+=normal[j];
+      normalesVertice[caras_ply[indice+1]*3+j]+=normal[j];
+      normalesVertice[caras_ply[indice+2]*3+j]+=normal[j];
+    }
+  }
+}
+
+void Objeto3D::normalizar(){
+  float modulo=0.0;
+  int actual=0;
+  for(int i=0;i<caras_ply.size();i++){
+    actual=caras_ply[i];
+    modulo=sqrt(normalesVertice[actual*3]*normalesVertice[actual*3]+normalesVertice[actual*3+1]
+               *normalesVertice[actual*3+1]+normalesVertice[actual*3+2]*normalesVertice[actual*3+2]);
+    if(modulo>0.0){
+       normalesVertice[actual*3]=normalesVertice[actual*3]/modulo;
+       normalesVertice[actual*3+1]=normalesVertice[actual*3+1]/modulo;
+       normalesVertice[actual*3+2]=normalesVertice[actual*3+2]/modulo;
+    }
+  }
+}
+
+void Objeto3D::drawSmooth(){
+  glShadeModel(GL_SMOOTH);
+  glBegin(GL_TRIANGLES);
+  {
+      for(int i=0;i<caras_ply.size()/3;i++){
+        int indice=3*i;
+        glNormal3f(normalesVertice[caras_ply[indice]*3],normalesVertice[caras_ply[indice]*3+1],normalesVertice[caras_ply[indice]*3+2]);
+        glVertex3f(vertices_ply[caras_ply[indice]*3],vertices_ply[caras_ply[indice]*3+1],vertices_ply[caras_ply[indice]*3+2]);
+        glNormal3f(normalesVertice[caras_ply[indice+1]*3],normalesVertice[caras_ply[indice+1]*3+1],normalesVertice[caras_ply[indice+1]*3+2]);
+        glVertex3f(vertices_ply[caras_ply[indice+1]*3],vertices_ply[caras_ply[indice+1]*3+1],vertices_ply[caras_ply[indice+1]*3+2]);
+        glNormal3f(normalesVertice[caras_ply[indice+2]*3],normalesVertice[caras_ply[indice+2]*3+1],normalesVertice[caras_ply[indice+2]*3+2]);
+        glVertex3f(vertices_ply[caras_ply[indice+2]*3],vertices_ply[caras_ply[indice+2]*3+1],vertices_ply[caras_ply[indice+2]*3+2]);
+      }
+  }glEnd();
+}
+
+void Objeto3D::drawFlat(){
+  glShadeModel(GL_FLAT);
+  glBegin(GL_TRIANGLES);
+  {
+      float x=0.0,y=0.0,z=0.0,modulo=0.0,normal[3];
+      for(int i=0;i<caras_ply.size()/3;i++){
+        int indice=3*i;
+        calcularNormal(vertices_ply[caras_ply[indice]*3],vertices_ply[caras_ply[indice]*3+1],vertices_ply[caras_ply[indice]*3+2],
+                   vertices_ply[caras_ply[indice+1]*3],vertices_ply[caras_ply[indice+1]*3+1],vertices_ply[caras_ply[indice+1]*3+2],
+                   vertices_ply[caras_ply[indice+2]*3],vertices_ply[caras_ply[indice+2]*3+1],vertices_ply[caras_ply[indice+2]*3+2],normal);
+        
+        glNormal3f(normal[0],normal[1],normal[2]);
+        glVertex3f(vertices_ply[caras_ply[indice]*3],vertices_ply[caras_ply[indice]*3+1],vertices_ply[caras_ply[indice]*3+2]);
+        glVertex3f(vertices_ply[caras_ply[indice+1]*3],vertices_ply[caras_ply[indice+1]*3+1],vertices_ply[caras_ply[indice+1]*3+2]);
+        glVertex3f(vertices_ply[caras_ply[indice+2]*3],vertices_ply[caras_ply[indice+2]*3+1],vertices_ply[caras_ply[indice+2]*3+2]);
+      }
+  }glEnd();
+}
+
+void Objeto3D::changeDraw(bool cambio){
+  dibujo=cambio;
 }
 
 class Ejes:Objeto3D { 
@@ -142,12 +219,12 @@ Ejes ejesCoordenadas;
 Procedimiento de dibujo del modelo. Es llamado por glut cada vez que se debe redibujar.
 
 **/
-Nodo nodo(NULL);
-Malla* mallaPLY = new Malla("./plys/beethoven.ply");
-Malla* mallaPLY2 = new Malla("./plys/big_dodge");
-Traslacion* transformacion = new Traslacion(0.0,0.0,5.0);
-Traslacion* transformacion2 = new Traslacion(5.0,0.0,0.0);
-Rotacion* rotacion = new Rotacion(-45,0.0,0.0,1.0);
+Nodo nodo = new Nodo();
+Malla* cuerpo = new Malla("./plys/cuerpo.ply");
+Malla* pi = new Malla("./plys/pi.ply");
+Malla* pd = new Malla("./plys/pd.ply");
+Rotacion* rotacion1 = new Rotacion(-90,1,0,0);
+Rotacion* torso = new Rotacion(rotar,0,1,0);
 
 
 void Dibuja (void)
@@ -169,26 +246,17 @@ void Dibuja (void)
   glEnable(GL_COLOR_MATERIAL);
   glPointSize(5);
 
-  
-  //transformacion.addChild(&mallaPLY);
-
   if(iluminacion){
     glEnable(GL_LIGHTING);
   }else{
     glDisable(GL_LIGHTING);
   }
 
-  vector<Nodo*> hijos;
   if(!jerarquia){
-    nodo.addChild(rotacion);
-    rotacion->addChild(transformacion);
-    transformacion->addChild(mallaPLY);
-    mallaPLY->addChild(transformacion2);
-    transformacion2->addChild(mallaPLY2);
-    jerarquia=true;
+
+
   }
-  mallaPLY->changeDraw(dibujo);
-  nodo.drawJerarquia();
+  nodo.draw();
   glColor4fv(color);
   
 
@@ -303,7 +371,6 @@ Procedimiento de fondo. Es llamado por glut cuando no hay eventos pendientes.
 **/
 void idle (int v)
 {
-
   glutPostRedisplay ();		// Redibuja
   glutTimerFunc (30, idle, 0);	// Vuelve a activarse dentro de 30 ms
 }
@@ -324,3 +391,17 @@ void setDraw(){
     dibujo=false;
   }else dibujo=true;
 }
+
+void setRotar(){
+  rotar+=1;
+  if (rotar>360) rotar-=360;
+}
+
+void setTrasladarUp(){
+  traslacion+=0.15;
+}
+
+void setTrasladarDown(){
+  traslacion-=0.15;
+}
+

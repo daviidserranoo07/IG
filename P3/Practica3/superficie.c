@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Superficie::Superficie(string path,int n) : Malla(){
+Superficie::Superficie(string path,int n) : Objeto3D(){
   ply::read_vertices(path.c_str(),vertices_ply);
   
   //Añadimos las coordenadas de un vértice en el centro por abajo para tener tapa inferior
@@ -76,7 +76,7 @@ void Superficie::draw(){
   }
 }
 
-Superficie::Superficie() : Malla(){
+Superficie::Superficie() : Objeto3D(){
   
 }
 

@@ -33,6 +33,7 @@ modulo entradaTeclado.c
 #include <math.h>
 #include <GL/glut.h>		// Libreria de utilidades de OpenGL
 #include "practicasIG.h"
+#include "modelo.h"
 
 
 /** 
@@ -114,8 +115,18 @@ void letra (unsigned char k, int x, int y)
       break;
     case 'i':
       setLuz();
+      break;
     case 'q':
       setDraw();
+      break;
+    case 'b':
+      setRotar();
+      break;
+    case 'c':
+      setTrasladarUp();
+      break;
+    case 'v':
+      setTrasladarDown();   
     default:
       return;
     }

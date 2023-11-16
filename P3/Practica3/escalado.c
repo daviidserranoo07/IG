@@ -13,6 +13,6 @@ Escalado::Escalado(float x, float y, float z){
         scale[2]=z;
 }
 
-void Escalado::apply(){
+void Escalado::draw(){
         glScalef(scale[0],scale[1],scale[2]);
 }

@@ -10,6 +10,7 @@ private:
 public:
     Rotacion();
     Rotacion(float angle, float x, float y, float z);
+    void setRotar(float rotar);
     virtual void draw();
 };
 

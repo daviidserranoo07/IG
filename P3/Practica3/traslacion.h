@@ -10,6 +10,7 @@ public:
     Traslacion();
     Traslacion(float x, float y, float z);
     virtual void draw();
+    void setTraslacion(float traslacion);
 };
 
 #endif

@@ -51,19 +51,17 @@ void Nodo::removeChildren(Nodo* child){
 }
 
 void Nodo::draw(){
-    
+    Nodo *child;
+    glPushMatrix();
+    for(int i=0;i<children.size();i++){
+        child=children[i];
+        if(child!=NULL){
+            child->draw();
+        }
+    }
+    glPopMatrix();
 }
 
 void Nodo::drawJerarquia(){
-    vector<Nodo*> hijos = children;
-    Nodo* child=NULL;
-    for(int i=0;i<hijos.size();i++){
-        child=hijos[i];
-        child->draw();
-        if(child!=NULL){
-            child->drawJerarquia();
-        }
-    }
-    
     
 }

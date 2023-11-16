@@ -3,7 +3,7 @@
 #include "modelo.h"
 #include "malla.h"
 
-class Superficie : public Malla{
+class Superficie : public Objeto3D{
 private:
 	int n;
 public:

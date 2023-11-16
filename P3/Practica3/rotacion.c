@@ -1,5 +1,6 @@
 #include "rotacion.h"
 #include <GL/glut.h>
+#include <iostream>
 
 using namespace std;
 
@@ -16,4 +17,8 @@ Rotacion::Rotacion(float angle, float x, float y, float z){
 
 void Rotacion::draw(){
     glRotatef(angle,rotation[0],rotation[1],rotation[2]);
+}
+
+void Rotacion::setRotar(float rotar){
+    glRotatef(rotar,rotation[0],rotation[1],rotation[2]);
 }
