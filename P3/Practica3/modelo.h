@@ -65,11 +65,17 @@ void setModoVisualizacion(int n);
 
 void setDraw();
 
-void setRotar();
+void setRotarIzquierda();
 
-void setTrasladarUp();
+void setRotarDerecha();
 
-void setTrasladarDown();
+void setMoverAdelante();
+
+void setMoverAtras();
+
+void setMoverArriba();
+
+void setMoverAbajo();
 
 class Objeto3D : public Nodo
 {

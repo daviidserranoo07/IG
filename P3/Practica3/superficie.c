@@ -74,6 +74,7 @@ void Superficie::draw(){
   }else{
     drawFlat();
   }
+  Nodo::draw();
 }
 
 Superficie::Superficie() : Objeto3D(){

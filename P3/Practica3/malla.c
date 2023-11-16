@@ -14,6 +14,7 @@ void Malla::draw() {
   }else{
     drawFlat();
   }
+  Nodo::draw();
 }
 
 Malla::Malla(string nombre){

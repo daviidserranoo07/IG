@@ -52,16 +52,12 @@ void Nodo::removeChildren(Nodo* child){
 
 void Nodo::draw(){
     Nodo *child;
-    glPushMatrix();
     for(int i=0;i<children.size();i++){
+        glPushMatrix();
         child=children[i];
         if(child!=NULL){
             child->draw();
         }
+        glPopMatrix();
     }
-    glPopMatrix();
-}
-
-void Nodo::drawJerarquia(){
-    
 }

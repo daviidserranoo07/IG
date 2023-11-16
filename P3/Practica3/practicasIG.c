@@ -62,12 +62,17 @@ int main (int argc, char *argv[])
 
   if(argc>1){
     if(strcmp(argv[1],"--help")==0){
-      cout<<endl<<endl<<endl<<endl;
       cout<<"La tecla p cambia a modo GL_POINT"<<endl;
       cout<<"La tecla 1 cambia a modo GL_LINE"<<endl;
       cout<<"La tecla f cambia a modo GL_FILL"<<endl;
       cout<<"La tecla i desactiva la iluminación"<<endl;
       cout<<"La tecla q cambia a entre drawSmooth y drawFlat"<<endl;
+      cout<<"La tecla d mueve el robot hacia delante"<<endl;
+      cout<<"La tecla s mueve el robot hacia atras"<<endl;
+      cout<<"La tecla o mueve el robot hacia arriba"<<endl;
+      cout<<"La tecla l mueve el robot hacia abajo"<<endl;
+      cout<<"La tecla c gira el torso del robot hacia la izquierda"<<endl;
+      cout<<"La tecla v gira el torso del robot hacia la derecha"<<endl;
       exit(0);
     }
   }

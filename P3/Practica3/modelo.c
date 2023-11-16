@@ -49,7 +49,7 @@ Inicializa el modelo y de las variables globales
 **/
 int modo;
 bool iluminacion, dibujo, obtener,jerarquia;
-float rotar,traslacion, traslacion2;
+float rotar, mover, moverY;
 string ruta;
 
 void initModel (){
@@ -60,8 +60,8 @@ void initModel (){
   obtener=false;
   jerarquia=false;
   rotar=0;
-  traslacion=0;
-  traslacion2=0;
+  mover=0;
+  moverY=0;
 }
 
 /**
@@ -219,12 +219,15 @@ Ejes ejesCoordenadas;
 Procedimiento de dibujo del modelo. Es llamado por glut cada vez que se debe redibujar.
 
 **/
-Nodo nodo = new Nodo();
-Malla* cuerpo = new Malla("./plys/cuerpo.ply");
-Malla* pi = new Malla("./plys/pi.ply");
-Malla* pd = new Malla("./plys/pd.ply");
-Rotacion* rotacion1 = new Rotacion(-90,1,0,0);
-Rotacion* torso = new Rotacion(rotar,0,1,0);
+Nodo* nodo;
+Malla* cuerpo;
+Malla* pi;
+Malla* pd;
+Rotacion* rotacion1;
+Rotacion* rotarY;
+Traslacion* traslacionZ;
+Traslacion* traslacionY;
+Escalado* escalar;
 
 
 void Dibuja (void)
@@ -252,11 +255,34 @@ void Dibuja (void)
     glDisable(GL_LIGHTING);
   }
 
-  if(!jerarquia){
-
-
+  if(!obtener){
+    nodo = new Nodo(NULL);
+    cuerpo = new Malla("./plys/cuerpo.ply");
+    pi = new Malla("./plys/pi.ply");
+    pd = new Malla("./plys/pd.ply");
+    rotacion1 = new Rotacion(-90,1,0,0);
+    rotarY = new Rotacion(rotar,0,0,1);
+    traslacionZ = new Traslacion(0,0,mover);
+    traslacionY = new Traslacion(0,moverY,0);
+    escalar = new Escalado(2,2,2);
+    obtener=true;
   }
-  nodo.draw();
+
+  if(!jerarquia){
+    nodo->addChild(traslacionY);
+    traslacionY->addChild(traslacionZ);
+    traslacionZ->addChild(rotacion1);
+    rotacion1->addChild(rotarY);
+    rotarY->addChild(cuerpo);
+    rotacion1->addChild(pi);
+    rotacion1->addChild(pd);
+    jerarquia=true;
+  }
+  nodo->draw();
+  rotarY->setRotar(rotar);
+  traslacionZ->setTraslacionZ(mover);
+  traslacionY->setTraslacionY(moverY);
+  cuerpo->changeDraw(dibujo);
   glColor4fv(color);
   
 
@@ -392,16 +418,27 @@ void setDraw(){
   }else dibujo=true;
 }
 
-void setRotar(){
-  rotar+=1;
-  if (rotar>360) rotar-=360;
+void setRotarIzquierda(){
+  if (rotar<90 && rotar>-90) rotar+=1;
 }
 
-void setTrasladarUp(){
-  traslacion+=0.15;
+void setRotarDerecha(){
+  if (rotar<90 && rotar>-90) rotar-=1;
 }
 
-void setTrasladarDown(){
-  traslacion-=0.15;
+void setMoverAdelante(){
+  mover+=0.15;
+}
+
+void setMoverAtras(){
+  mover-=0.15;
+}
+
+void setMoverArriba(){
+  moverY+=0.15;
+}
+
+void setMoverAbajo(){
+  moverY-=0.15;
 }
 

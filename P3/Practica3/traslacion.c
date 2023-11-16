@@ -15,8 +15,13 @@ Traslacion::Traslacion(float x, float y, float z){
 
 void Traslacion::draw(){
     glTranslatef(translation[0],translation[1],translation[2]);
+    Nodo::draw();
 }
 
-void Traslacion::setTraslacion(float traslacion){
-    glTranslatef(translation[0],traslacion,translation[2]);
+void Traslacion::setTraslacionZ(float traslacion){
+    translation[2]=traslacion;
+}
+
+void Traslacion::setTraslacionY(float traslacion){
+    translation[1]=traslacion;
 }
