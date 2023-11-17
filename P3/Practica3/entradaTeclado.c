@@ -119,29 +119,32 @@ void letra (unsigned char k, int x, int y)
     case 'q':
       setDraw();
       break;
-    case 'c':
+    case 'C':
       setRotarIzquierda();
       break;
-    case 'v':
+    case 'c':
       setRotarDerecha();
       break;
-    case 'd':
+    case 's':
       setMoverAdelante();
       break;
-    case 's':
+    case 'S':
       setMoverAtras();
       break;
     case 'o':
       setMoverArriba();
       break;
-    case 'l':
+    case 'O':
       setMoverAbajo();
       break;
-    case 'k':
+    case 'l':
       setRotarTodoDerecha();
       break;
-    case 'j':
+    case 'L':
       setRotarTodoIzquierda();
+      break;
+    case 'A':
+      setAnimacion();
       break;
     default:
       return;

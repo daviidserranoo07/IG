@@ -4,7 +4,7 @@
 #include <vector>
 
 class Nodo{
-private:
+protected:
     Nodo* parent;
     std::vector<Nodo*> children;
 public:

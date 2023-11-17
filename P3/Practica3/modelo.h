@@ -92,6 +92,14 @@ void setRotarTodoIzquierda();
 /*Funcion para rotar todo el robot a la derecha*/
 void setRotarTodoDerecha();
 
+/*Funcion para activar y desactivar la iluminacion*/
+void setAnimacion();
+
+/*Guarda la ruta del dibujo PLY o por Revolucion a dibujar*/
+void guardarPath(std::string path);
+
+void hacerAnimacion();
+
 class Objeto3D : public Nodo
 {
 protected:
@@ -109,7 +117,7 @@ public:
 	virtual void draw( ) = 0; // Dibuja el objeto
 } ; 
 
-void guardarPath(std::string path);
+
 
 #endif
 

@@ -18,10 +18,15 @@ void Traslacion::draw(){
     Nodo::draw();
 }
 
-void Traslacion::setTraslacionZ(float traslacion){
-    translation[2]=traslacion;
+void Traslacion::setTraslacionX(float traslacion){
+    translation[1]=traslacion;
 }
 
 void Traslacion::setTraslacionY(float traslacion){
     translation[1]=traslacion;
 }
+
+void Traslacion::setTraslacionZ(float traslacion){
+    translation[2]=traslacion;
+}
+

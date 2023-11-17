@@ -48,21 +48,51 @@ Inicializa el modelo y de las variables globales
 
 **/
 int modo;
-bool iluminacion, dibujo, obtener,jerarquia;
-float rotar, mover, moverY, rotarTodoY;
+bool iluminacion, dibujo, animacion, llegadoMas, llegadoMenos, fin;
+float rotarTorso, mover, moverY, rotarTodo, obtener;
 string ruta;
+
+Nodo* padre;
+Malla* cuerpo;
+Malla* pi;
+Malla* pd;
+Rotacion* rotacion1;
+Rotacion* rotarEjeY;
+Rotacion* rotarEjeYTodo;
+Traslacion* traslacionZ;
+Traslacion* traslacionY;
+Escalado* escalar;
 
 void initModel (){
   modo=GL_FILL;
   iluminacion=true;
   ruta="";
-  dibujo=false;
-  obtener=false;
-  jerarquia=false;
-  rotar=0;
-  mover=0;
-  moverY=0;
-  rotarTodoY=0;
+  dibujo=false, obtener=false, animacion=false, llegadoMas=false, llegadoMenos=false, fin=false, rotarTorso=0;
+  mover=0, moverY=0, rotarTodo=0;
+
+  padre = new Nodo();
+  cuerpo = new Malla("./plys/cuerpo.ply");
+  pi = new Malla("./plys/pi.ply");
+  pd = new Malla("./plys/pd.ply");
+  rotacion1 = new Rotacion(-90,1,0,0);
+  rotarEjeY = new Rotacion(rotarTorso,0,0,1);
+  rotarEjeYTodo = new Rotacion(rotarTodo,0,1,0);
+  traslacionZ = new Traslacion(0,0,mover);
+  traslacionY = new Traslacion(0,moverY,0);
+  escalar = new Escalado(2,2,2);
+
+  //Montamos la jerarquia
+  padre->addChild(traslacionY);
+  traslacionY->addChild(traslacionZ);
+  traslacionZ->addChild(rotarEjeYTodo);
+  rotarEjeYTodo->addChild(rotacion1);
+  
+  rotacion1->addChild(rotarEjeY);
+  rotacion1->addChild(pi);
+  rotacion1->addChild(pd);
+
+  rotarEjeY->addChild(cuerpo);
+  
 }
 
 /**
@@ -220,16 +250,7 @@ Ejes ejesCoordenadas;
 Procedimiento de dibujo del modelo. Es llamado por glut cada vez que se debe redibujar.
 
 **/
-Nodo* nodo;
-Malla* cuerpo;
-Malla* pi;
-Malla* pd;
-Rotacion* rotacion1;
-Rotacion* rotarY;
-Rotacion* rotarTodo;
-Traslacion* traslacionZ;
-Traslacion* traslacionY;
-Escalado* escalar;
+
 
 
 void Dibuja (void)
@@ -257,40 +278,14 @@ void Dibuja (void)
     glDisable(GL_LIGHTING);
   }
 
-  if(!obtener){
-    nodo = new Nodo(NULL);
-    cuerpo = new Malla("./plys/cuerpo.ply");
-    pi = new Malla("./plys/pi.ply");
-    pd = new Malla("./plys/pd.ply");
-    rotacion1 = new Rotacion(-90,1,0,0);
-    rotarY = new Rotacion(rotar,0,0,1);
-    rotarTodo = new Rotacion(rotarTodoY,0,1,0);
-    traslacionZ = new Traslacion(0,0,mover);
-    traslacionY = new Traslacion(0,moverY,0);
-    escalar = new Escalado(2,2,2);
-    obtener=true;
-  }
-
-  if(!jerarquia){
-    nodo->addChild(traslacionY);
-    traslacionY->addChild(traslacionZ);
-    traslacionZ->addChild(rotarTodo);
-    rotarTodo->addChild(rotacion1);
-    rotacion1->addChild(rotarY);
-    rotarY->addChild(cuerpo);
-    rotacion1->addChild(pi);
-    rotacion1->addChild(pd);
-    jerarquia=true;
-  }
-  nodo->draw();
-  rotarY->setRotar(rotar);
-  rotarTodo->setRotar(rotarTodoY);
+  padre->draw();
+  rotarEjeY->setRotar(rotarTorso);
+  rotarEjeYTodo->setRotar(rotarTodo);
   traslacionZ->setTraslacionZ(mover);
   traslacionY->setTraslacionY(moverY);
   cuerpo->changeDraw(dibujo);
   glColor4fv(color);
   
-
   // Dibuja el modelo (A rellenar en prácticas 1,2 y 3)
 
   glPolygonMode(GL_FRONT_AND_BACK,modo);   
@@ -402,6 +397,9 @@ Procedimiento de fondo. Es llamado por glut cuando no hay eventos pendientes.
 **/
 void idle (int v)
 {
+  if(animacion){
+    hacerAnimacion();
+  }
   glutPostRedisplay ();		// Redibuja
   glutTimerFunc (30, idle, 0);	// Vuelve a activarse dentro de 30 ms
 }
@@ -417,6 +415,12 @@ void setLuz(){
   }else iluminacion=true;
 }
 
+void setAnimacion(){
+  if(animacion){
+    animacion=false;
+  }else animacion=true;
+}
+
 void setDraw(){
   if(dibujo){
     dibujo=false;
@@ -424,19 +428,21 @@ void setDraw(){
 }
 
 void setRotarIzquierda(){
-  if (rotar<90 && rotar>=-90) rotar+=2;
+  if (rotarTorso<90 && rotarTorso>=-90) rotarTorso+=2;
 }
 
 void setRotarDerecha(){
-  if (rotar<=90 && rotar>-90) rotar-=2;
+  if (rotarTorso<=90 && rotarTorso>-90) rotarTorso-=2;
 }
 
 void setRotarTodoIzquierda(){
-  rotarTodoY+=2;
+  rotarTodo+=2;
+  if (rotarTodo>360)  rotarTodo-=360;
 }
 
 void setRotarTodoDerecha(){
-  rotarTodoY-=2;
+  if (rotarTodo<360)  rotarTodo+=360;
+  rotarTodo-=2;
 }
 
 void setMoverAdelante(){
@@ -453,5 +459,25 @@ void setMoverArriba(){
 
 void setMoverAbajo(){
   moverY-=0.15;
+}
+
+void hacerAnimacion(){
+    if(rotarTorso<90 && !llegadoMas){
+      rotarTorso+=2;
+    }else if(rotarTorso>-90 && !llegadoMenos){
+      llegadoMas=true;
+      rotarTorso-=2; 
+    }else if(rotarTorso!=0){
+      rotarTorso+=2;
+      llegadoMenos=true;
+    }else if(rotarTodo<270){
+      rotarTodo+=2;
+    }else if(rotarTodo==270 && moverY<3 && !fin){
+      moverY+=0.04;
+    }else{
+      fin=true;
+      rotarTorso=0;
+      moverY=0;
+    }
 }
 

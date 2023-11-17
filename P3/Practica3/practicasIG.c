@@ -61,22 +61,39 @@ int main (int argc, char *argv[])
 // buffer de profundidad
 
   if(argc>1){
-    if(strcmp(argv[1],"--help")==0){
+    if(strcmp(argv[1],"--help")!=0 && strcmp(argv[1],"--load")!=0 && strcmp(argv[1],"--spin")!=0){
+      cout<<"La opción pasada es incorrecta, solo existe --help, --load, --spin"<<endl;
+      exit(0);
+    }else if(strcmp(argv[1],"--help")==0){
+      cout<<"-------------MODOS-------------"<<endl;
+      cout<<endl;
       cout<<"La tecla p cambia a modo GL_POINT"<<endl;
       cout<<"La tecla 1 cambia a modo GL_LINE"<<endl;
       cout<<"La tecla f cambia a modo GL_FILL"<<endl;
+      cout<<endl;
+      cout<<"-------------ILUMINACIÓN-------------"<<endl;
       cout<<"La tecla i desactiva la iluminación"<<endl;
+      cout<<endl;
+      cout<<"-------------MODO DIBUJO-------------"<<endl;
       cout<<"La tecla q cambia a entre drawSmooth y drawFlat"<<endl;
-      cout<<"La tecla d mueve el robot hacia delante"<<endl;
-      cout<<"La tecla s mueve el robot hacia atras"<<endl;
+      cout<<endl;
+      cout<<"-------------MOVIMIENTO ROBOT-------------"<<endl;
+      cout<<"La tecla s mueve el robot hacia delante"<<endl;
+      cout<<"La tecla S mueve el robot hacia atras"<<endl;
       cout<<"La tecla o mueve el robot hacia arriba"<<endl;
-      cout<<"La tecla l mueve el robot hacia abajo"<<endl;
-      cout<<"La tecla c gira el torso del robot hacia la izquierda"<<endl;
-      cout<<"La tecla v gira el torso del robot hacia la derecha"<<endl;
-      cout<<"La tecla j gira el robot hacia la izquierda"<<endl;
-      cout<<"La tecla k gira el robot hacia la derecha"<<endl;
+      cout<<"La tecla O mueve el robot hacia abajo"<<endl;
+      cout<<"-------------GIROS ROBOT-------------"<<endl;
+      cout<<endl;
+      cout<<"La tecla C gira el torso del robot hacia la izquierda"<<endl;
+      cout<<"La tecla c gira el torso del robot hacia la derecha"<<endl;
+      cout<<"La tecla L gira el robot hacia la izquierda"<<endl;
+      cout<<"La tecla l gira el robot hacia la derecha"<<endl;
+      cout<<endl;
+      cout<<"-------------ANIMACIÓN-------------"<<endl;
+      cout<<"La tecla A para activar y desactivar animación"<<endl;
       exit(0);
     }
+
   }
 
   glutInitWindowPosition (0, 0);
@@ -106,10 +123,8 @@ int main (int argc, char *argv[])
     string argumento(argv[2]);
     guardarPath(argumento);
     glutDisplayFunc (DibujaPLY);
-  }else{
-    cout<<"Te has equivocado al pasar la opcion, solo existe --help, --load /ruta y --spin /ruta"<<endl;
-    exit(0);
   }
+
   glutReshapeFunc (inicializaVentana);
 
 // FUNCIONES DE INTERACCION
