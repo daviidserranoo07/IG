@@ -73,6 +73,8 @@ int main (int argc, char *argv[])
       cout<<"La tecla l mueve el robot hacia abajo"<<endl;
       cout<<"La tecla c gira el torso del robot hacia la izquierda"<<endl;
       cout<<"La tecla v gira el torso del robot hacia la derecha"<<endl;
+      cout<<"La tecla j gira el robot hacia la izquierda"<<endl;
+      cout<<"La tecla k gira el robot hacia la derecha"<<endl;
       exit(0);
     }
   }
@@ -89,14 +91,24 @@ int main (int argc, char *argv[])
   if(argc==1){
     glutDisplayFunc (Dibuja);
   }else if(strcmp(argv[1],"--spin")==0){
+    if(argc<3){
+      cout<<"No has pasado ninguna ruta"<<endl;
+      exit(0);
+    }
     string argumento(argv[2]);
-    cout<<"LEIDOOOOOO"<<argumento<<endl;
     guardarPath(argumento);
     glutDisplayFunc (DibujaSuperficie);
   }else if(strcmp(argv[1],"--load")==0){
+    if(argc<3){
+      cout<<"No has pasado ninguna ruta"<<endl;
+      exit(0);
+    }
     string argumento(argv[2]);
     guardarPath(argumento);
     glutDisplayFunc (DibujaPLY);
+  }else{
+    cout<<"Te has equivocado al pasar la opcion, solo existe --help, --load /ruta y --spin /ruta"<<endl;
+    exit(0);
   }
   glutReshapeFunc (inicializaVentana);
 

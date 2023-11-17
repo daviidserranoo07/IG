@@ -137,6 +137,12 @@ void letra (unsigned char k, int x, int y)
     case 'l':
       setMoverAbajo();
       break;
+    case 'k':
+      setRotarTodoDerecha();
+      break;
+    case 'j':
+      setRotarTodoIzquierda();
+      break;
     default:
       return;
     }

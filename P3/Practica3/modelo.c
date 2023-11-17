@@ -49,7 +49,7 @@ Inicializa el modelo y de las variables globales
 **/
 int modo;
 bool iluminacion, dibujo, obtener,jerarquia;
-float rotar, mover, moverY;
+float rotar, mover, moverY, rotarTodoY;
 string ruta;
 
 void initModel (){
@@ -62,6 +62,7 @@ void initModel (){
   rotar=0;
   mover=0;
   moverY=0;
+  rotarTodoY=0;
 }
 
 /**
@@ -225,6 +226,7 @@ Malla* pi;
 Malla* pd;
 Rotacion* rotacion1;
 Rotacion* rotarY;
+Rotacion* rotarTodo;
 Traslacion* traslacionZ;
 Traslacion* traslacionY;
 Escalado* escalar;
@@ -262,6 +264,7 @@ void Dibuja (void)
     pd = new Malla("./plys/pd.ply");
     rotacion1 = new Rotacion(-90,1,0,0);
     rotarY = new Rotacion(rotar,0,0,1);
+    rotarTodo = new Rotacion(rotarTodoY,0,1,0);
     traslacionZ = new Traslacion(0,0,mover);
     traslacionY = new Traslacion(0,moverY,0);
     escalar = new Escalado(2,2,2);
@@ -271,7 +274,8 @@ void Dibuja (void)
   if(!jerarquia){
     nodo->addChild(traslacionY);
     traslacionY->addChild(traslacionZ);
-    traslacionZ->addChild(rotacion1);
+    traslacionZ->addChild(rotarTodo);
+    rotarTodo->addChild(rotacion1);
     rotacion1->addChild(rotarY);
     rotarY->addChild(cuerpo);
     rotacion1->addChild(pi);
@@ -280,6 +284,7 @@ void Dibuja (void)
   }
   nodo->draw();
   rotarY->setRotar(rotar);
+  rotarTodo->setRotar(rotarTodoY);
   traslacionZ->setTraslacionZ(mover);
   traslacionY->setTraslacionY(moverY);
   cuerpo->changeDraw(dibujo);
@@ -419,11 +424,19 @@ void setDraw(){
 }
 
 void setRotarIzquierda(){
-  if (rotar<90 && rotar>-90) rotar+=1;
+  if (rotar<90 && rotar>=-90) rotar+=2;
 }
 
 void setRotarDerecha(){
-  if (rotar<90 && rotar>-90) rotar-=1;
+  if (rotar<=90 && rotar>-90) rotar-=2;
+}
+
+void setRotarTodoIzquierda(){
+  rotarTodoY+=2;
+}
+
+void setRotarTodoDerecha(){
+  rotarTodoY-=2;
 }
 
 void setMoverAdelante(){

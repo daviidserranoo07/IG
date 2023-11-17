@@ -59,23 +59,38 @@ const int maxVer=10,maxTri=10;
 /*Función para editar modo de visualización*/
 void setModo(int M);
 
+/*Funcion para activar y desactivar la iluminacion*/
 void setLuz();
 
+/*Funcion para cambiar entre los tres modo de visualizacion*/
 void setModoVisualizacion(int n);
 
+/*Funcion para cambiar entre drawSmooth y drawFlat*/
 void setDraw();
 
+/*Funcion para rotar torso del robot a la izquierda*/
 void setRotarIzquierda();
 
+/*Funcion para rotar torso del robot a la derecha*/
 void setRotarDerecha();
 
+/*Funcion para mover el robot hacia adelante*/
 void setMoverAdelante();
 
+/*Funcion para mover el robot hacia atras*/
 void setMoverAtras();
 
+/*Funcion para mover el robot hacia arriba*/
 void setMoverArriba();
 
+/*Funcion para mover el robot hacia abajo*/
 void setMoverAbajo();
+
+/*Funcion para rotar todo el robot a la izquierda*/
+void setRotarTodoIzquierda();
+
+/*Funcion para rotar todo el robot a la derecha*/
+void setRotarTodoDerecha();
 
 class Objeto3D : public Nodo
 {
