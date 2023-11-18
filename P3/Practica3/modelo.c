@@ -33,6 +33,7 @@ modulo modelo.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <vector>
 #include <GL/glut.h>		// Libreria de utilidades de OpenGL
 #include "practicasIG.h"
 #include "file_ply_stl.h"
@@ -48,8 +49,8 @@ Inicializa el modelo y de las variables globales
 
 **/
 int modo;
-bool iluminacion, dibujo, animacion, llegadoMas, llegadoMenos, fin;
-float rotarTorso, mover, moverY, rotarTodo, obtener;
+bool iluminacion, dibujo, animacion, llegadoMas, llegadoMenos, fin, rapidoTorso, rapidoTodo, rapidoMovimiento, lentoTorso, lentoTodo, lentoMovimiento;
+float rotarTorso, mover, moverY, rotarTodo, obtener, aumenta, aumentaMover;
 string ruta;
 
 Nodo* padre;
@@ -67,8 +68,9 @@ void initModel (){
   modo=GL_FILL;
   iluminacion=true;
   ruta="";
-  dibujo=false, obtener=false, animacion=false, llegadoMas=false, llegadoMenos=false, fin=false, rotarTorso=0;
-  mover=0, moverY=0, rotarTodo=0;
+  dibujo=false, obtener=false, animacion=false, llegadoMas=false, llegadoMenos=false, fin=false, 
+  rotarTorso=false, rapidoTorso=false, rapidoTodo=false, rapidoMovimiento=false, lentoTorso=false, lentoTodo=false, lentoMovimiento=false;
+  mover=0, moverY=0, rotarTodo=0, aumenta=1, aumentaMover=0.08;
 
   padre = new Nodo();
   cuerpo = new Malla("./plys/cuerpo.ply");
@@ -86,13 +88,102 @@ void initModel (){
   traslacionY->addChild(traslacionZ);
   traslacionZ->addChild(rotarEjeYTodo);
   rotarEjeYTodo->addChild(rotacion1);
-  
-  rotacion1->addChild(rotarEjeY);
+
   rotacion1->addChild(pi);
   rotacion1->addChild(pd);
+  rotacion1->addChild(rotarEjeY);
 
   rotarEjeY->addChild(cuerpo);
+}
+
+void entradaTeclado(char c){
+  if(c=='C')
+    if (rotarTorso<90 && rotarTorso>=-90) rotarTorso+=2;
+
+  if(c=='c')
+    if (rotarTorso<=90 && rotarTorso>-90) rotarTorso-=2;
+
+  if(c=='N'){
+    if (rotarTodo>360)  rotarTodo-=360;
+    rotarTodo+=2;
+  }
+
+  if(c=='n'){
+    if (rotarTodo<360)  rotarTodo+=360;
+    rotarTodo-=2;
+  }
+
+  if(c=='s')
+    mover+=0.15;
+
+  if(c=='S')
+    mover-=0.15;
+
+  if(c=='o')
+    moverY+=0.15;
+
+  if(c=='O')
+    moverY-=0.15;
   
+  if(c=='L'){
+    if(rapidoTodo){
+      rapidoTodo=false;
+    }else{
+      rapidoTodo=true;
+      lentoTodo=false;
+    }
+  }
+
+  if(c=='l'){
+    if(lentoTodo){
+      lentoTodo=false;
+    }else{
+      lentoTodo=true;
+      rapidoTodo=false;
+    }
+  }
+
+  if(c=='G'){
+    if(rapidoMovimiento){
+      rapidoMovimiento=false;
+    }else{
+      rapidoMovimiento=true;
+      lentoMovimiento=false;
+    }
+  }
+
+  if(c=='g'){
+    if(lentoMovimiento){
+      lentoMovimiento=false;
+    }else{
+      lentoMovimiento=true;
+      rapidoMovimiento=false;
+    }
+  }
+
+  if(c=='i'){
+    if(iluminacion){
+      iluminacion=false;
+    }else iluminacion=true;
+  }
+
+
+  if(c=='A'){
+    if(animacion){
+      animacion=false;
+    }else{
+      animacion=true;
+      llegadoMas=false;
+      llegadoMenos=false;
+      fin=false;
+    }
+  }
+  
+  if(c=='q'){
+    if(dibujo){
+      dibujo=false;
+    }else dibujo=true;
+  }
 }
 
 /**
@@ -240,9 +331,6 @@ void draw( )
 }
 };
 
-
-
-
 Ejes ejesCoordenadas;
 
 /**	void Dibuja( void )
@@ -250,9 +338,6 @@ Ejes ejesCoordenadas;
 Procedimiento de dibujo del modelo. Es llamado por glut cada vez que se debe redibujar.
 
 **/
-
-
-
 void Dibuja (void)
 {
   static GLfloat  pos[4] = { 5.0, 5.0, 10.0, 0.0 },color2[4]={1,0.05,0.052,1},color3[4]={1.0,0.5,0,1},color4[4]={1.0,0.8,0.3,1};	// Posicion de la fuente de luz
@@ -278,13 +363,14 @@ void Dibuja (void)
     glDisable(GL_LIGHTING);
   }
 
+  glColor4fv(color);
   padre->draw();
   rotarEjeY->setRotar(rotarTorso);
   rotarEjeYTodo->setRotar(rotarTodo);
   traslacionZ->setTraslacionZ(mover);
   traslacionY->setTraslacionY(moverY);
   cuerpo->changeDraw(dibujo);
-  glColor4fv(color);
+  
   
   // Dibuja el modelo (A rellenar en prácticas 1,2 y 3)
 
@@ -325,14 +411,15 @@ void DibujaSuperficie(void)
   }
   
   
-  glColor4fv(color);
   if(!obtener){
     superficie=obtenerSuperficie();
     obtener=true;
   }
 
+  glColor4fv(color);
   superficie.changeDraw(dibujo);
   superficie.draw();
+  
   
   // Dibuja el modelo (A rellenar en prácticas 1,2 y 3)
 
@@ -378,6 +465,7 @@ void DibujaPLY(void)
     malla=obtenerMalla();
     obtener=true;
   }
+  glRotatef(-90,1,0,0);
   malla.changeDraw(dibujo);
   malla.draw();
 
@@ -409,75 +497,41 @@ void setModo(int M)
   modo=M;
 }
 
-void setLuz(){
-  if(iluminacion){
-    iluminacion=false;
-  }else iluminacion=true;
-}
-
-void setAnimacion(){
-  if(animacion){
-    animacion=false;
-  }else animacion=true;
-}
-
-void setDraw(){
-  if(dibujo){
-    dibujo=false;
-  }else dibujo=true;
-}
-
-void setRotarIzquierda(){
-  if (rotarTorso<90 && rotarTorso>=-90) rotarTorso+=2;
-}
-
-void setRotarDerecha(){
-  if (rotarTorso<=90 && rotarTorso>-90) rotarTorso-=2;
-}
-
-void setRotarTodoIzquierda(){
-  rotarTodo+=2;
-  if (rotarTodo>360)  rotarTodo-=360;
-}
-
-void setRotarTodoDerecha(){
-  if (rotarTodo<360)  rotarTodo+=360;
-  rotarTodo-=2;
-}
-
-void setMoverAdelante(){
-  mover+=0.15;
-}
-
-void setMoverAtras(){
-  mover-=0.15;
-}
-
-void setMoverArriba(){
-  moverY+=0.15;
-}
-
-void setMoverAbajo(){
-  moverY-=0.15;
-}
-
 void hacerAnimacion(){
     if(rotarTorso<90 && !llegadoMas){
-      rotarTorso+=2;
+      rotarTorso+=3;
     }else if(rotarTorso>-90 && !llegadoMenos){
       llegadoMas=true;
-      rotarTorso-=2; 
+      rotarTorso-=3; 
     }else if(rotarTorso!=0){
-      rotarTorso+=2;
+      rotarTorso+=3;
       llegadoMenos=true;
-    }else if(rotarTodo<270){
-      rotarTodo+=2;
-    }else if(rotarTodo==270 && moverY<3 && !fin){
-      moverY+=0.04;
+    }else if(rotarTodo<360 && !fin){
+      if(rapidoTodo){
+        aumenta++;
+        rapidoTodo=false;
+      }else if(lentoTodo && aumenta>0){
+        aumenta--;
+        lentoTodo=false;
+      }
+      rotarTodo+=aumenta;
+    }else if(rotarTodo>=360 && moverY<8 && !fin){
+      if(rapidoMovimiento){
+        aumentaMover+=0.02;
+        rapidoMovimiento=false;
+      }else if(lentoMovimiento && aumentaMover>0){
+        aumentaMover-=0.02;
+        lentoMovimiento=false;
+      }
+      moverY+=aumentaMover;
     }else{
       fin=true;
       rotarTorso=0;
       moverY=0;
+      rotarTodo=0;
+      animacion=false;
+      aumenta=1;
+      aumentaMover=0.08;
     }
 }
 

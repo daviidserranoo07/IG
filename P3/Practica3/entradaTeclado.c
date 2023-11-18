@@ -114,37 +114,49 @@ void letra (unsigned char k, int x, int y)
       setModo(GL_FILL);
       break;
     case 'i':
-      setLuz();
+      entradaTeclado('i');
       break;
     case 'q':
-      setDraw();
+      entradaTeclado('q');
       break;
     case 'C':
-      setRotarIzquierda();
+      entradaTeclado('C');
       break;
     case 'c':
-      setRotarDerecha();
+      entradaTeclado('c');
       break;
     case 's':
-      setMoverAdelante();
+      entradaTeclado('s');
       break;
     case 'S':
-      setMoverAtras();
+      entradaTeclado('S');
       break;
     case 'o':
-      setMoverArriba();
+      entradaTeclado('o');
       break;
     case 'O':
-      setMoverAbajo();
+      entradaTeclado('O');
       break;
-    case 'l':
-      setRotarTodoDerecha();
+    case 'n':
+      entradaTeclado('n');
+      break;
+    case 'N':
+      entradaTeclado('N');
       break;
     case 'L':
-      setRotarTodoIzquierda();
+      entradaTeclado('L');
+      break;
+    case 'l':
+      entradaTeclado('l');
+      break;
+    case 'G':
+      entradaTeclado('G');
+      break;
+    case 'g':
+      entradaTeclado('g');
       break;
     case 'A':
-      setAnimacion();
+      entradaTeclado('A');
       break;
     default:
       return;

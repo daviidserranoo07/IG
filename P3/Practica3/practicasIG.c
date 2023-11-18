@@ -66,7 +66,6 @@ int main (int argc, char *argv[])
       exit(0);
     }else if(strcmp(argv[1],"--help")==0){
       cout<<"-------------MODOS-------------"<<endl;
-      cout<<endl;
       cout<<"La tecla p cambia a modo GL_POINT"<<endl;
       cout<<"La tecla 1 cambia a modo GL_LINE"<<endl;
       cout<<"La tecla f cambia a modo GL_FILL"<<endl;
@@ -86,11 +85,15 @@ int main (int argc, char *argv[])
       cout<<endl;
       cout<<"La tecla C gira el torso del robot hacia la izquierda"<<endl;
       cout<<"La tecla c gira el torso del robot hacia la derecha"<<endl;
-      cout<<"La tecla L gira el robot hacia la izquierda"<<endl;
-      cout<<"La tecla l gira el robot hacia la derecha"<<endl;
+      cout<<"La tecla N gira el robot hacia la izquierda"<<endl;
+      cout<<"La tecla n gira el robot hacia la derecha"<<endl;
       cout<<endl;
       cout<<"-------------ANIMACIÓN-------------"<<endl;
       cout<<"La tecla A para activar y desactivar animación"<<endl;
+      cout<<"La tecla F aumenta velocidad de giro de todo el robot"<<endl;
+      cout<<"La tecla f disminuye velocidad de giro de todo el robot"<<endl;
+      cout<<"La tecla G aumenta velocidad de movimiento hacia arriba del robot"<<endl;
+      cout<<"La tecla g disminuye velocidad de movimiento hacia arriba del robot"<<endl;
       exit(0);
     }
 
