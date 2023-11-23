@@ -49,7 +49,7 @@ Inicializa el modelo y de las variables globales
 
 **/
 int modo;
-bool iluminacion, dibujo, animacion, llegadoMas, llegadoMenos, fin, rapidoTorso, rapidoTodo, rapidoMovimiento, lentoTorso, lentoTodo, lentoMovimiento;
+bool iluminacion, dibujo, animacion, llegadoMas, llegadoMenos, fin, rapidoTodo, rapidoMovimiento, lentoTodo, lentoMovimiento;
 float rotarTorso, mover, moverY, rotarTodo, obtener, aumenta, aumentaMover;
 string ruta;
 
@@ -65,13 +65,20 @@ Traslacion* traslacionY;
 Escalado* escalar;
 
 void initModel (){
+  //Inicializamos modo
   modo=GL_FILL;
-  iluminacion=true;
-  ruta="";
-  dibujo=false, obtener=false, animacion=false, llegadoMas=false, llegadoMenos=false, fin=false, 
-  rotarTorso=false, rapidoTorso=false, rapidoTodo=false, rapidoMovimiento=false, lentoTorso=false, lentoTodo=false, lentoMovimiento=false;
-  mover=0, moverY=0, rotarTodo=0, aumenta=1, aumentaMover=0.08;
 
+  //Inicializamos la ruta
+  ruta="";
+
+  //Inicializamos todos los booleanos
+  iluminacion=true, dibujo=false, obtener=false, animacion=false, llegadoMas=false, llegadoMenos=false, fin=false, 
+  rotarTorso=false, rapidoTodo=false, rapidoMovimiento=false, lentoTodo=false, lentoMovimiento=false;
+
+  //Inicializamos todos los float
+  mover=0.0, moverY=0.0, rotarTodo=0.0, aumenta=1.0, aumentaMover=0.08;
+
+  //Inicializamos todos los nodos que formaran la jerarquia
   padre = new Nodo();
   cuerpo = new Malla("./plys/cuerpo.ply");
   pi = new Malla("./plys/pi.ply");
@@ -211,6 +218,9 @@ Malla obtenerMalla(){
 
 bool Objeto3D::dibujo=false;
 
+/**
+ *  Calcula la normal de una cara
+*/
 void Objeto3D::calcularNormal(float x1, float y1, float z1, float x2, float y2, float z2,float x3, float y3, float z3, float resultado[3]){
   float a1=x1-x3,
         a2=y1-y3,
@@ -233,6 +243,9 @@ void Objeto3D::calcularNormal(float x1, float y1, float z1, float x2, float y2, 
   
 }
 
+/**
+ * Calcula las normales de un conjunto de vértices mediante las normales de cara
+*/
 void Objeto3D::calcularNormales(){
   float normal[3];
   int indice=0;
@@ -250,6 +263,9 @@ void Objeto3D::calcularNormales(){
   }
 }
 
+/**
+ * Normaliza la normal de cada vértice
+*/
 void Objeto3D::normalizar(){
   float modulo=0.0;
   int actual=0;
@@ -265,6 +281,9 @@ void Objeto3D::normalizar(){
   }
 }
 
+/**
+ * Dibuja en modo smooth un Objeto3D
+*/
 void Objeto3D::drawSmooth(){
   glShadeModel(GL_SMOOTH);
   glBegin(GL_TRIANGLES);
@@ -281,6 +300,9 @@ void Objeto3D::drawSmooth(){
   }glEnd();
 }
 
+/**
+ * Dibuja en modo flat un Objeto3D
+*/
 void Objeto3D::drawFlat(){
   glShadeModel(GL_FLAT);
   glBegin(GL_TRIANGLES);
@@ -300,6 +322,9 @@ void Objeto3D::drawFlat(){
   }glEnd();
 }
 
+/**
+ * Cambia el valor de la variable estática dibujo
+*/
 void Objeto3D::changeDraw(bool cambio){
   dibujo=cambio;
 }

@@ -90,8 +90,8 @@ int main (int argc, char *argv[])
       cout<<endl;
       cout<<"-------------ANIMACIÓN-------------"<<endl;
       cout<<"La tecla A para activar y desactivar animación"<<endl;
-      cout<<"La tecla F aumenta velocidad de giro de todo el robot"<<endl;
-      cout<<"La tecla f disminuye velocidad de giro de todo el robot"<<endl;
+      cout<<"La tecla L aumenta velocidad de giro de todo el robot"<<endl;
+      cout<<"La tecla l disminuye velocidad de giro de todo el robot"<<endl;
       cout<<"La tecla G aumenta velocidad de movimiento hacia arriba del robot"<<endl;
       cout<<"La tecla g disminuye velocidad de movimiento hacia arriba del robot"<<endl;
       exit(0);
