@@ -38,7 +38,8 @@ modulo modelo.c
 #include "practicasIG.h"
 #include "file_ply_stl.h"
 #include "superficie.h"
-
+#include "cubo.h"
+#include "material.h"
 
 using namespace std;
 
@@ -63,6 +64,8 @@ Rotacion* rotarEjeYTodo;
 Traslacion* traslacionZ;
 Traslacion* traslacionY;
 Escalado* escalar;
+Cubo* cubo;
+Material* material;
 
 void initModel (){
   //Inicializamos modo
@@ -78,7 +81,7 @@ void initModel (){
   //Inicializamos todos los float
   mover=0.0, moverY=0.0, rotarTodo=0.0, aumenta=1.0, aumentaMover=0.08;
 
-  //Inicializamos todos los nodos que formaran la jerarquia
+  //Inicializamos todos los nodos que formaran la jerarquia(Práctica 3)
   padre = new Nodo();
   cuerpo = new Malla("./plys/cuerpo.ply");
   pi = new Malla("./plys/pi.ply");
@@ -101,6 +104,14 @@ void initModel (){
   rotacion1->addChild(rotarEjeY);
 
   rotarEjeY->addChild(cuerpo);
+
+  //Inicilizamos valores necesarios para materiales y texturas(Práctica 4)
+  material = new Material();
+  material->setAmbiental(0.8,0.8,0.8);
+  material->setEspecular(0.5,0.5,0.5);
+  material->setDifusa(0.3,0.3,0.3);
+  material->setBrillo(0.9);
+  cubo = new Cubo(3,material);
 }
 
 void entradaTeclado(char c){
@@ -363,7 +374,45 @@ Ejes ejesCoordenadas;
 Procedimiento de dibujo del modelo. Es llamado por glut cada vez que se debe redibujar.
 
 **/
+
 void Dibuja (void)
+{
+  static GLfloat  pos[4] = { 5.0, 5.0, 10.0, 0.0 },color2[4]={1,0.05,0.052,1},color3[4]={1.0,0.5,0,1},color4[4]={1.0,0.8,0.3,1};	// Posicion de la fuente de luz
+
+  float  color[4] = { 0.8, 0.0, 1, 1 };
+
+  glPushMatrix ();		// Apila la transformacion geometrica actual
+
+  glClearColor (0.0, 0.0, 0.0, 1.0);	// Fija el color de fondo a negro
+
+  glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Inicializa el buffer de color y el Z-Buffer
+
+  transformacionVisualizacion ();	// Carga transformacion de visualizacion
+
+  glLightfv (GL_LIGHT0, GL_POSITION, pos);	// Declaracion de luz. Colocada aqui esta fija en la escena
+  ejesCoordenadas.draw();			// Dibuja los ejes
+  glEnable(GL_COLOR_MATERIAL);
+  glPointSize(5);
+
+  if(iluminacion){
+    glEnable(GL_LIGHTING);
+  }else{
+    glDisable(GL_LIGHTING);
+  }
+
+  cubo->draw();
+
+  // Dibuja el modelo (A rellenar en prácticas 1,2 y 3)
+
+  glPolygonMode(GL_FRONT_AND_BACK,modo);   
+  glPopMatrix ();		// Desapila la transformacion geometrica
+
+
+  glutSwapBuffers ();		// Intercambia el buffer de dibujo y visualizacion
+}
+
+
+void DibujaP3 (void)
 {
   static GLfloat  pos[4] = { 5.0, 5.0, 10.0, 0.0 },color2[4]={1,0.05,0.052,1},color3[4]={1.0,0.5,0,1},color4[4]={1.0,0.8,0.3,1};	// Posicion de la fuente de luz
 

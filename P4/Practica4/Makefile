@@ -17,7 +17,7 @@ EJECUTABLE=  practicasIG
 #
 #
 
-MODULOS=  $(EJECUTABLE).o entradaTeclado.o visual.o mouse.o modelo.o file_ply_stl.o superficie.o malla.o nodo.o transformacion.o traslacion.o rotacion.o escalado.o
+MODULOS=  $(EJECUTABLE).o entradaTeclado.o visual.o mouse.o modelo.o file_ply_stl.o superficie.o malla.o nodo.o transformacion.o traslacion.o rotacion.o escalado.o lector-jpg.o material.o cubo.o
 
 
 #  INCLUDEDIRS= Lista de caminos a los directorios donde se encuentran
@@ -62,7 +62,7 @@ LDFLAGS=   -L$(LIBSDIR)
 #              m        funciones matematicas (sin y cos, p.ej.)
 
 #LIBS=    -lglut -lGLU -lGL -lX11 -lXext -lXmu -lXi -lc -lm
-LIBS=    -lglut -lGLU -lGL -lX11 -lXext  -lc -lm
+LIBS=    -lglut -lGLU -lGL -lX11 -lXext  -lc -lm -ljpeg
 
 #  CC= orden de UNIX que invoca al compilador de C
 #      (en este caso "gcc" llama al compilador de C/C++ de GNU) 

@@ -61,8 +61,8 @@ int main (int argc, char *argv[])
 // buffer de profundidad
 
   if(argc>1){
-    if(strcmp(argv[1],"--help")!=0 && strcmp(argv[1],"--load")!=0 && strcmp(argv[1],"--spin")!=0){
-      cout<<"La opción pasada es incorrecta, solo existe --help, --load, --spin"<<endl;
+    if(strcmp(argv[1],"--help")!=0 && strcmp(argv[1],"--load")!=0 && strcmp(argv[1],"--spin")!=0 && strcmp(argv[1],"--practica3")!=0){
+      cout<<"La opción pasada es incorrecta, solo existe --help, --load, --spin, --practica3"<<endl;
       exit(0);
     }else if(strcmp(argv[1],"--help")==0){
       cout<<"-------------MODOS-------------"<<endl;
@@ -126,6 +126,8 @@ int main (int argc, char *argv[])
     string argumento(argv[2]);
     guardarPath(argumento);
     glutDisplayFunc (DibujaPLY);
+  }else if(strcmp(argv[1],"--practica3")==0){
+    glutDisplayFunc (DibujaP3);
   }
 
   glutReshapeFunc (inicializaVentana);
