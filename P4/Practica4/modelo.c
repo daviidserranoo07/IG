@@ -40,6 +40,7 @@ modulo modelo.c
 #include "superficie.h"
 #include "cubo.h"
 #include "material.h"
+#include "texturas.h"
 
 using namespace std;
 
@@ -50,7 +51,7 @@ Inicializa el modelo y de las variables globales
 
 **/
 int modo;
-bool iluminacion, dibujo, animacion, llegadoMas, llegadoMenos, fin, rapidoTodo, rapidoMovimiento, lentoTodo, lentoMovimiento;
+bool iluminacion, dibujo, animacion, llegadoMas, llegadoMenos, fin, rapidoTodo, rapidoMovimiento, lentoTodo, lentoMovimiento, cargarTextura;
 float rotarTorso, mover, moverY, rotarTodo, obtener, aumenta, aumentaMover;
 string ruta;
 
@@ -65,7 +66,9 @@ Traslacion* traslacionZ;
 Traslacion* traslacionY;
 Escalado* escalar;
 Cubo* cubo;
+Cubo* cuboTextura;
 Material* material;
+Textura* textura;
 
 void initModel (){
   //Inicializamos modo
@@ -76,7 +79,7 @@ void initModel (){
 
   //Inicializamos todos los booleanos
   iluminacion=true, dibujo=false, obtener=false, animacion=false, llegadoMas=false, llegadoMenos=false, fin=false, 
-  rotarTorso=false, rapidoTodo=false, rapidoMovimiento=false, lentoTodo=false, lentoMovimiento=false;
+  rotarTorso=false, rapidoTodo=false, rapidoMovimiento=false, lentoTodo=false, lentoMovimiento=false, cargarTextura=false;
 
   //Inicializamos todos los float
   mover=0.0, moverY=0.0, rotarTodo=0.0, aumenta=1.0, aumentaMover=0.08;
@@ -112,6 +115,8 @@ void initModel (){
   material->setDifusa(0.3,0.3,0.3);
   material->setBrillo(0.9);
   cubo = new Cubo(3,material);
+  cuboTextura = new Cubo(3);
+  textura = new Textura("./jpg/dado.jpg");
 }
 
 void entradaTeclado(char c){
@@ -379,7 +384,7 @@ void Dibuja (void)
 {
   static GLfloat  pos[4] = { 5.0, 5.0, 10.0, 0.0 },color2[4]={1,0.05,0.052,1},color3[4]={1.0,0.5,0,1},color4[4]={1.0,0.8,0.3,1};	// Posicion de la fuente de luz
 
-  float  color[4] = { 0.8, 0.0, 1, 1 };
+  float  color[4] = { 1, 0.98, 0.98, 1 };
 
   glPushMatrix ();		// Apila la transformacion geometrica actual
 
@@ -393,14 +398,23 @@ void Dibuja (void)
   ejesCoordenadas.draw();			// Dibuja los ejes
   glEnable(GL_COLOR_MATERIAL);
   glPointSize(5);
+  glColor4fv(color);
 
   if(iluminacion){
     glEnable(GL_LIGHTING);
   }else{
     glDisable(GL_LIGHTING);
   }
+  //Cubo Material
+  //cubo->draw();
+  glEnable(GL_TEXTURE_2D);
+  if(!cargarTextura){
+      textura->cargarTextura();
+      cargarTextura=true;
+  }
+  cuboTextura->drawTextura();
+  glDisable(GL_TEXTURE_2D);
 
-  cubo->draw();
 
   // Dibuja el modelo (A rellenar en prácticas 1,2 y 3)
 

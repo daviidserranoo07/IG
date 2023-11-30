@@ -29,7 +29,6 @@
 
 #ifndef modelo_h
 #define modelo_h
-
 #include<vector>
 #include<string>
 #include "nodo.h"
