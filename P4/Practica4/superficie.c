@@ -8,7 +8,11 @@
 
 using namespace std;
 
-Superficie::Superficie(string path,int n) : Objeto3D(){
+Superficie::Superficie() : Objeto3D(){
+  
+}
+
+Superficie::Superficie(string path,int n) : Superficie(){
   ply::read_vertices(path.c_str(),vertices_ply);
   
   //Añadimos las coordenadas de un vértice en el centro por abajo para tener tapa inferior
@@ -68,6 +72,10 @@ Superficie::Superficie(string path,int n) : Objeto3D(){
   normalizar();
 }
 
+Superficie::Superficie(string path,int n,Textura* textura) : Superficie(path,n){
+  this->textura=textura;
+}
+
 void Superficie::draw(){
   if(dibujo){
     drawSmooth();
@@ -75,10 +83,6 @@ void Superficie::draw(){
     drawFlat();
   }
   Nodo::draw();
-}
-
-Superficie::Superficie() : Objeto3D(){
-  
 }
 
 void Superficie::addTapaInferior(){

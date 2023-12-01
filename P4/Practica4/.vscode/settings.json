@@ -47,6 +47,7 @@
         "streambuf": "c",
         "cinttypes": "c",
         "typeinfo": "c",
-        "nodo.h": "c"
+        "nodo.h": "c",
+        "modelo.h": "c"
     }
 }

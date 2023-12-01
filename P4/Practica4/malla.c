@@ -24,6 +24,10 @@ Malla::Malla(string nombre){
   normalizar();
 }
 
+Malla::Malla(string nombre,Textura* textura) : Malla(nombre){
+    this->textura=textura;
+}
+
 Malla::Malla() : Objeto3D(){
 
 }

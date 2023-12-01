@@ -5,7 +5,7 @@
 #include <GL/glut.h>
 #include <string>
 
-class Textura : public Objeto3D{
+class Textura{
 private:
     unsigned char * image; //Array que contiene la textura
     GLuint texId; //Indentificador de la textura
