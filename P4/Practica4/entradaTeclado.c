@@ -158,6 +158,12 @@ void letra (unsigned char k, int x, int y)
     case 'A':
       entradaTeclado('A');
       break;
+    case '2':
+      entradaTeclado('2');
+      break;
+    case '3':
+      entradaTeclado('3');
+      break;
     default:
       return;
     }

@@ -3,17 +3,21 @@
 
 #include "material.h"
 #include "modelo.h"
+#include "texturas.h"
 
 
 class Cubo : public Objeto3D{
 private:
     float lado;
     bool materialActivado;
+    Textura textura;
 public:
     Cubo(float lado);
-    Cubo(float lado, Material* material);
     virtual void draw();
     void drawTextura();
+    void addMaterial(Material material);
+    void addTextura(Textura textura);
+    GLuint getIdTextura();
 };
 
 #endif

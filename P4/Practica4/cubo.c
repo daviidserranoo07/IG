@@ -7,15 +7,14 @@ Cubo::Cubo(float lado){
     this->materialActivado=false;
 }
 
-Cubo::Cubo(float lado, Material* material){
-    this->lado=lado;
-    this->material=material;
-    this->materialActivado=true;
+void Cubo::addMaterial(Material material){
+  this->material=material;
+  this->materialActivado=true;
 }
 
 void Cubo::draw(){
   if(materialActivado){
-      material->aplicarMaterial();
+      material.aplicarMaterial();
   }
   glBegin (GL_QUAD_STRIP);
   {
@@ -131,4 +130,12 @@ void Cubo::drawTextura(){
     glTexCoord2f(0.75,0.75);  
     glVertex3f (0, lado, 0);
   }glEnd ();
+}
+
+ void Cubo::addTextura(Textura textura){
+  this->textura=textura;
+ }
+
+GLuint Cubo::getIdTextura(){
+  return this->textura.getID();
 }

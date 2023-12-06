@@ -8,13 +8,8 @@
 
 using namespace std;
 
-void Malla::draw() {
-  if(Malla::dibujo){
-    drawSmooth();
-  }else{
-    drawFlat();
-  }
-  Nodo::draw();
+Malla::Malla() : Objeto3D(){
+
 }
 
 Malla::Malla(string nombre){
@@ -28,7 +23,11 @@ Malla::Malla(string nombre,Textura* textura) : Malla(nombre){
     this->textura=textura;
 }
 
-Malla::Malla() : Objeto3D(){
-
+void Malla::draw() {
+  if(Malla::dibujo){
+    drawSmooth();
+  }else{
+    drawFlat();
+  }
+  Nodo::draw();
 }
-

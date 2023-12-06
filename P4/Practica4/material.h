@@ -5,7 +5,7 @@ class Material{
 private:
     float ambiental[3];
     float especular[3];
-    float difusa[4];
+    float difusa[3];
     float brillo;
 public:
     Material();

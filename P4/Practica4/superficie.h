@@ -9,15 +9,18 @@
 class Superficie : public Objeto3D{
 private:
 	int n;
-	Textura* textura;
+	Textura textura;
 	std::vector<std::pair<float,float>> vectorCoordenadas;
 public:
 	Superficie();
 	Superficie(std::string path,int n);
-	Superficie(std::string path,int n,Textura* textura);
+	Superficie(std::string path,int n,Textura textura);
 	void draw();
+	void drawTextura();
+	GLuint getIdTextura();
 	void addTapaInferior();
 	void addTapaSuperior();
+	void calcularCoordenadasTextura();
 };
 
 #endif

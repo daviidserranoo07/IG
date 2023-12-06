@@ -51,7 +51,7 @@ Inicializa el modelo y de las variables globales
 
 **/
 int modo;
-bool iluminacion, dibujo, animacion, llegadoMas, llegadoMenos, fin, rapidoTodo, rapidoMovimiento, lentoTodo, lentoMovimiento, cargarTextura;
+bool iluminacion, dibujo, animacion, llegadoMas, llegadoMenos, fin, rapidoTodo, rapidoMovimiento, lentoTodo, lentoMovimiento, cargarTextura,  cargarTexturaLata, luz1, luz2;
 float rotarTorso, mover, moverY, rotarTodo, obtener, aumenta, aumentaMover;
 string ruta;
 
@@ -65,12 +65,30 @@ Rotacion* rotarEjeYTodo;
 Traslacion* traslacionZ;
 Traslacion* traslacionY;
 Escalado* escalar;
-Cubo* cubo;
-Cubo* cuboTextura;
-Material* material;
-Textura* textura;
+Material material;
+Material material1;
+Material material2;
+Cubo cubo(3);
+Cubo cubo1(3);
+Cubo cubo2(3);
+Cubo cuboTextura(3);
+Textura textura("./jpg/dado.jpg");
+Textura texturaLata("./jpg/coke.jpg");;
+Superficie lata("./plys/lata-pcue.ply",10,texturaLata);
+
 
 void initModel (){
+  //Cargamos luces
+  GLfloat pos0[] = { -1.0, 1.0, 1.0, 0.0 };
+  GLfloat difusa0[] = { 1.0, 0.0, 0.0, 1.0 };
+  glLightfv(GL_LIGHT1, GL_POSITION, pos0);
+  glLightfv(GL_LIGHT1, GL_DIFFUSE, difusa0);
+
+  GLfloat pos1[] = { -5.0, -5.0, -10.0, 0.0 };
+  GLfloat difusa1[] = { 0.0, 1.0, 0.0, 1.0 };
+  glLightfv(GL_LIGHT2, GL_POSITION, pos1);
+  glLightfv(GL_LIGHT2, GL_DIFFUSE, difusa1);
+
   //Inicializamos modo
   modo=GL_FILL;
 
@@ -79,7 +97,8 @@ void initModel (){
 
   //Inicializamos todos los booleanos
   iluminacion=true, dibujo=false, obtener=false, animacion=false, llegadoMas=false, llegadoMenos=false, fin=false, 
-  rotarTorso=false, rapidoTodo=false, rapidoMovimiento=false, lentoTodo=false, lentoMovimiento=false, cargarTextura=false;
+  rotarTorso=false, rapidoTodo=false, rapidoMovimiento=false, lentoTodo=false, lentoMovimiento=false, cargarTextura=false,
+  cargarTexturaLata=false,luz1=true, luz2=false;
 
   //Inicializamos todos los float
   mover=0.0, moverY=0.0, rotarTodo=0.0, aumenta=1.0, aumentaMover=0.08;
@@ -109,15 +128,24 @@ void initModel (){
   rotarEjeY->addChild(cuerpo);
 
   //Inicilizamos valores necesarios para materiales y texturas(Práctica 4)
-  material = new Material();
-  material->setAmbiental(0.8,0.8,0.8);
-  material->setEspecular(0.5,0.5,0.5);
-  material->setDifusa(0.3,0.3,0.3);
-  material->setBrillo(0.9);
-  cubo = new Cubo(3,material);
-  cuboTextura = new Cubo(3);
-  textura = new Textura("./jpg/dado.jpg");
+  material.setAmbiental(0.8,0.8,0.8);
+  material.setEspecular(0.1,0.1,0.1);
+  material.setDifusa(0.9,0.9,0.9);
+  material.setBrillo(0.0);
+  material1.setAmbiental(0.4,0.4,0.4);
+  material1.setEspecular(0.5,0.5,0.5);
+  material1.setDifusa(0.4,0.4,0.4);
+  material1.setBrillo(0.5);
+  material2.setAmbiental(0.2,0.2,0.2);
+  material2.setEspecular(0.9,0.9,0.9);
+  material2.setDifusa(0.1,0.1,0.1);
+  material2.setBrillo(1);
+  cubo.addMaterial(material);
+  cubo1.addMaterial(material1);
+  cubo2.addMaterial(material2);
+  cuboTextura.addTextura(textura);
 }
+
 
 void entradaTeclado(char c){
   if(c=='C')
@@ -206,6 +234,18 @@ void entradaTeclado(char c){
     if(dibujo){
       dibujo=false;
     }else dibujo=true;
+  }
+
+  if(c=='2'){
+    if(luz1){
+      luz1=false;
+    }else luz1=true;
+  }
+
+    if(c=='3'){
+    if(luz2){
+      luz2=false;
+    }else luz2=true;
   }
 }
 
@@ -398,21 +438,48 @@ void Dibuja (void)
   ejesCoordenadas.draw();			// Dibuja los ejes
   glEnable(GL_COLOR_MATERIAL);
   glPointSize(5);
-  glColor4fv(color);
+  glColor4fv(color2);
 
   if(iluminacion){
     glEnable(GL_LIGHTING);
+    if(luz1){
+      glEnable(GL_LIGHT0);
+    }else{
+      glDisable(GL_LIGHT0);
+    }
+    
+    if(luz2){
+      glEnable(GL_LIGHT1);
+    }else{
+      glDisable(GL_LIGHT1);
+    }
   }else{
     glDisable(GL_LIGHTING);
   }
+
   //Cubo Material
-  //cubo->draw();
+  glTranslatef(4,0,0);
+  cubo.draw();
+  glTranslatef(4,0,0);
+  cubo1.draw();
+  glTranslatef(4,0,0);
+  cubo2.draw();
+
+  //Textura dado
   glEnable(GL_TEXTURE_2D);
-  if(!cargarTextura){
-      textura->cargarTextura();
-      cargarTextura=true;
-  }
-  cuboTextura->drawTextura();
+  textura.cargarTextura();
+  glBindTexture(GL_TEXTURE_2D, cuboTextura.getIdTextura());
+  glColor4fv(color);
+  glTranslatef(-20,0,0);
+  cuboTextura.drawTextura();
+  glDisable(GL_TEXTURE_2D);
+
+  glEnable(GL_TEXTURE_2D);
+  texturaLata.cargarTextura();
+  glBindTexture(GL_TEXTURE_2D, lata.getIdTextura());
+  glColor4fv(color);
+  glTranslatef(8,0,0);
+  lata.drawTextura();
   glDisable(GL_TEXTURE_2D);
 
 
@@ -525,7 +592,7 @@ Malla malla;
 */
 void DibujaPLY(void)
 {
-  static GLfloat  pos[4] = { 5.0, 5.0, 10.0, 0.0 },color2[4]={1,0.05,0.052,1},color3[4]={1.0,0.5,0,1},color4[4]={1.0,0.8,0.3,1};	// Posicion de la fuente de luz
+  static GLfloat  pos[4] = { 5.0, 5.0, 10.0, 0.0 },pos2[4]={-5.0,-5.0,-10.0,0.0},color2[4]={1,0.05,0.052,1},color3[4]={1.0,0.5,0,1},color4[4]={1.0,0.8,0.3,1};	// Posicion de la fuente de luz
 
   float  color[4] = { 0.8, 0.0, 1, 1 };
 
