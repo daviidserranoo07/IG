@@ -72,6 +72,8 @@ int main (int argc, char *argv[])
       cout<<endl;
       cout<<"-------------ILUMINACIÓN-------------"<<endl;
       cout<<"La tecla i desactiva la iluminación"<<endl;
+      cout<<"La tecla 2 para activar y desactivar la iluminacion 1"<<endl;
+      cout<<"La tecla 3 para activar y desactivar la iluminacion 3"<<endl;
       cout<<endl;
       cout<<"-------------MODO DIBUJO-------------"<<endl;
       cout<<"La tecla q cambia a entre drawSmooth y drawFlat"<<endl;

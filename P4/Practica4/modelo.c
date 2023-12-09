@@ -73,8 +73,12 @@ Cubo cubo1(3);
 Cubo cubo2(3);
 Cubo cuboTextura(3);
 Textura textura("./jpg/dado.jpg");
-Textura texturaLata("./jpg/coke.jpg");;
+//Textura texturaLata("./jpg/coke.jpg");
+Textura texturaLata("./jpg/test.jpeg");
+Textura texturaAbajo("./jpg/coke.jpg");
 Superficie lata("./plys/lata-pcue.ply",10,texturaLata);
+Superficie tapaAbajo("./plys/lata-pinf.ply",10);
+Superficie tapaArriba("./plys/lata-psup.ply",10);
 
 
 void initModel (){
@@ -480,6 +484,8 @@ void Dibuja (void)
   glColor4fv(color);
   glTranslatef(8,0,0);
   lata.drawTextura();
+  tapaAbajo.draw();
+  tapaArriba.draw();
   glDisable(GL_TEXTURE_2D);
 
 

@@ -21,6 +21,7 @@ public:
 	void addTapaInferior();
 	void addTapaSuperior();
 	void calcularCoordenadasTextura();
+	float distancia (float x0, float y0, float z0, float x1, float y1, float z1);
 };
 
 #endif
