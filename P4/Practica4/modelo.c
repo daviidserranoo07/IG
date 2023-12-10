@@ -73,8 +73,7 @@ Cubo cubo1(3);
 Cubo cubo2(3);
 Cubo cuboTextura(3);
 Textura textura("./jpg/dado.jpg");
-//Textura texturaLata("./jpg/coke.jpg");
-Textura texturaLata("./jpg/test.jpeg");
+Textura texturaLata("./jpg/coke.jpg");
 Textura texturaAbajo("./jpg/coke.jpg");
 Superficie lata("./plys/lata-pcue.ply",10,texturaLata);
 Superficie tapaAbajo("./plys/lata-pinf.ply",10);
@@ -91,7 +90,7 @@ void initModel (){
   GLfloat pos1[] = { -5.0, -5.0, -10.0, 0.0 };
   GLfloat difusa1[] = { 0.0, 1.0, 0.0, 1.0 };
   glLightfv(GL_LIGHT2, GL_POSITION, pos1);
-  glLightfv(GL_LIGHT2, GL_DIFFUSE, difusa1);
+  glLightfv(GL_LIGHT2, GL_AMBIENT, difusa1);
 
   //Inicializamos modo
   modo=GL_FILL;
@@ -478,6 +477,7 @@ void Dibuja (void)
   cuboTextura.drawTextura();
   glDisable(GL_TEXTURE_2D);
 
+  //Textura Lata
   glEnable(GL_TEXTURE_2D);
   texturaLata.cargarTextura();
   glBindTexture(GL_TEXTURE_2D, lata.getIdTextura());
