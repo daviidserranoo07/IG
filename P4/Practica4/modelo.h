@@ -77,6 +77,7 @@ class Objeto3D : public Nodo
 {
 protected:
 	static bool dibujo;
+	bool materialActivado;
 	std::vector<float> vertices_ply;
 	std::vector<int> caras_ply;
 	std::vector<float> normalesVertice;

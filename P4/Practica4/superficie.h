@@ -17,6 +17,7 @@ public:
 	Superficie(std::string path,int n,Textura textura);
 	void draw();
 	void drawTextura();
+	void addMaterial(Material material);
 	GLuint getIdTextura();
 	void addTapaInferior();
 	void addTapaSuperior();

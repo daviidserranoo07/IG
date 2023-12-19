@@ -9,8 +9,6 @@
 class Cubo : public Objeto3D{
 private:
     float lado;
-    bool materialActivado;
-    Textura textura;
 public:
     Cubo(float lado);
     virtual void draw();

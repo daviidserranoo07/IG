@@ -131,6 +131,11 @@ void Superficie::addTapaSuperior(){
   vertices_ply.push_back(0);
 }
 
+void Superficie::addMaterial(Material material){
+  this->material=material;
+  this->materialActivado=true;
+}
+
 void Superficie::calcularCoordenadasTextura() {
     float dmax=0.0, distance=0.0, u=0.0, v=0.0, angulo=0.0, di=0.0,v0=0.0, v1=0.0, v2=0.0, u0=0.0, u1=0.0, u2=0.0;
     int size = (vertices_ply.size()/3)/(n+1),base0=0,base1=0,indice=0;

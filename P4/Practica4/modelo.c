@@ -78,6 +78,9 @@ Textura texturaAbajo("./jpg/coke.jpg");
 Superficie lata("./plys/lata-pcue.ply",10,texturaLata);
 Superficie tapaAbajo("./plys/lata-pinf.ply",10);
 Superficie tapaArriba("./plys/lata-psup.ply",10);
+Superficie peon1("./plys/perfil.ply",10);
+Superficie peon2("./plys/perfil.ply",10);
+Superficie peon3("./plys/perfil.ply",10);
 
 
 void initModel (){
@@ -143,9 +146,9 @@ void initModel (){
   material2.setEspecular(0.9,0.9,0.9);
   material2.setDifusa(0.1,0.1,0.1);
   material2.setBrillo(1);
-  cubo.addMaterial(material);
-  cubo1.addMaterial(material1);
-  cubo2.addMaterial(material2);
+  peon1.addMaterial(material);
+  peon2.addMaterial(material1);
+  peon3.addMaterial(material2);
   cuboTextura.addTextura(textura);
 }
 
@@ -344,6 +347,9 @@ void Objeto3D::normalizar(){
  * Dibuja en modo smooth un Objeto3D
 */
 void Objeto3D::drawSmooth(){
+  if(materialActivado){
+    material.aplicarMaterial();
+  }
   glShadeModel(GL_SMOOTH);
   glBegin(GL_TRIANGLES);
   {
@@ -363,6 +369,9 @@ void Objeto3D::drawSmooth(){
  * Dibuja en modo flat un Objeto3D
 */
 void Objeto3D::drawFlat(){
+  if(materialActivado){
+    material.aplicarMaterial();
+  }
   glShadeModel(GL_FLAT);
   glBegin(GL_TRIANGLES);
   {
@@ -461,12 +470,12 @@ void Dibuja (void)
   }
 
   //Cubo Material
-  glTranslatef(4,0,0);
-  cubo.draw();
-  glTranslatef(4,0,0);
-  cubo1.draw();
-  glTranslatef(4,0,0);
-  cubo2.draw();
+  // glTranslatef(4,0,0);
+  // peon1.draw();
+  // glTranslatef(4,0,0);
+  // peon2.draw();
+  // glTranslatef(4,0,0);
+  // peon3.draw();
 
   //Textura dado
   glEnable(GL_TEXTURE_2D);
