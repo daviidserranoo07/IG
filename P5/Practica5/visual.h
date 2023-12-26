@@ -26,7 +26,7 @@
 
 	visual.h
 */
-
+#include "camara.h"
 
 
 //======================== visual.c
@@ -37,9 +37,7 @@
 Cambia los parámetros de la cámara en el modulo visual
 
 **/
-void setCamara (float ax, float ay, float d);
-
-
+void setCamara (float view_rotx,float view_roty,float D);
 
 /** 	void transformacionVisualizacion()
 
@@ -64,3 +62,10 @@ Inicializa el viewport para que ocupe toda la ventana X, y llama a fijaProyeccio
 **/
 
 void inicializaVentana (GLsizei ancho, GLsizei alto);
+
+/**
+ * Modifica el valor de moverX
+*/
+void setXY(float newX, float newY);
+
+void setAngulo(float view_rotx, float view_roty);

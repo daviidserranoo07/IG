@@ -34,6 +34,7 @@ modulo entradaTeclado.c
 #include <GL/glut.h>		// Libreria de utilidades de OpenGL
 #include "practicasIG.h"
 #include "modelo.h"
+#include "camara.h"
 
 
 /** 
@@ -81,14 +82,13 @@ x:
 y:
 
 **/
-
-float rotxCamara = 30, rotyCamara = 45;
+float rotxCamara = 30, rotyCamara = 45, moverseX=0, moverseY=0;
 float dCamara = 10;
 
 
 void letra (unsigned char k, int x, int y)
 {
-
+  const float step=0.3f;
   switch (k)
     {
     case 'h':
@@ -125,11 +125,11 @@ void letra (unsigned char k, int x, int y)
     case 'c':
       entradaTeclado('c');
       break;
-    case 's':
-      entradaTeclado('s');
+    case 'e':
+      entradaTeclado('e');
       break;
-    case 'S':
-      entradaTeclado('S');
+    case 'E':
+      entradaTeclado('E');
       break;
     case 'o':
       entradaTeclado('o');
@@ -164,10 +164,22 @@ void letra (unsigned char k, int x, int y)
     case '3':
       entradaTeclado('3');
       break;
+    case 'w':
+      moverseY+=step;
+      break;
+    case 'a':
+      moverseX+=step;
+      break;
+    case 's':
+      moverseY-=step;
+      break;
+    case 'd':
+      moverseX-=step;
+      break;
     default:
       return;
     }
-  setCamara (rotxCamara, rotyCamara, dCamara);
+  setXY(moverseX,moverseY);
   glutPostRedisplay ();		// Algunas de las opciones cambian paramentros
 }				// de la camara. Es necesario actualziar la imagen
 
@@ -218,6 +230,6 @@ void especial (int k, int x, int y)
     default:
       return;
     }
-  setCamara (rotxCamara, rotyCamara, dCamara);
+  setCamara(rotxCamara,rotyCamara,dCamara);
   glutPostRedisplay ();		// Actualiza la imagen (ver proc. letra)
 }

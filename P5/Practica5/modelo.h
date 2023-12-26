@@ -40,11 +40,18 @@
 **/
 void Dibuja (void);
 
+void DibujaP4 (void);
+
 void DibujaP3 (void);
 
 void DibujaPLY (void);
 
 void DibujaSuperficie (void);
+
+/**
+ * Dibuja la escena deseada
+*/
+void dibujaEscena();
 
 /**
 	Funcion de fondo
@@ -73,6 +80,21 @@ void guardarPath(std::string path);
 
 /*Realiza la animacion del robot*/
 void hacerAnimacion();
+
+/**
+ * Asigna un color al objeto actual para identificarlo
+*/
+void colorSeleccion(int id, int componente);
+
+/**
+ * Decodifica el color seleccionado
+*/
+int decodificarColor(int r, int g);
+
+/**
+ * Selecciona un objeto en función de su color asignado
+*/
+void seleccionarObjeto(int x, int y);
 
 class Objeto3D : public Nodo
 {

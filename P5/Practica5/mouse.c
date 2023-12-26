@@ -33,6 +33,9 @@
 #include <math.h>
 #include <GL/glut.h>		// Libreria de utilidades de OpenGL
 #include "practicasIG.h"
+#include "visual.h"
+#include "camara.h"
+
 
 /**	 void clickRaton( int boton, int estado, int x, int y )
 
@@ -48,9 +51,20 @@ x,y: Posicion, en coordenadas de pantalla, en que se encuantra el cursor.
 
 **/
 
-void clickRaton (int boton, int estado, int x, int y)
-{
+bool MOVIENDO_CAMARA = false;
+int x_ant = 0;
+int y_ant = 0;
 
+void clickRaton (int boton, int estado, int x, int y){
+	if(boton==GLUT_MIDDLE_BUTTON){
+		if(estado==GLUT_DOWN){
+			MOVIENDO_CAMARA=true;
+			x_ant=x;
+			y_ant=y;
+		}else{
+			MOVIENDO_CAMARA=false;
+		}
+	}
 }
 
 
@@ -64,7 +78,12 @@ x,y: Posicion, en coordenadas de pantalla, en que se encuantra el cursor.
 
 **/
 
-void RatonMovido (int x, int y)
-{
-
+void RatonMovido (int x, int y){
+	if(MOVIENDO_CAMARA){
+		setAngulo(x-x_ant,y-y_ant);
+		x_ant=x;
+		y_ant=y;
+		glutPostRedisplay();
+	}
+	
 }

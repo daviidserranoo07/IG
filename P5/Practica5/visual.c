@@ -35,6 +35,7 @@ modulo visual.c
 #include <math.h>
 #include <GL/glut.h>		// Libreria de utilidades de OpenGL
 #include "practicasIG.h"
+#include "camara.h"
 
 
 
@@ -43,20 +44,10 @@ modulo visual.c
 
 /**
 
-Angulos de rotacion de la camara.
+Valores camara
 
 **/
-
-float view_rotx = 30, view_roty = 45;
-
-
-/**
-
-Distancia de la cámara
-
-**/
-
-float D = 10;
+Camara camara(30,45,10);
 
 
 /**
@@ -76,12 +67,13 @@ float anchoVentana, altoVentana;
 Cambia los parámetros de la cámara en el modulo visual
 
 **/
-void setCamara (float ax, float ay, float d)
-{
-  view_rotx = ax;
-  view_roty = ay;
+void setCamara(float view_rotx,float view_roty,float D){
+  camara.setAngulo(view_rotx,view_roty);
+  camara.setDistancia(D);
+}
 
-  D = d;
+void setAngulo(float view_rotx, float view_roty){
+  camara.setAngulo(view_rotx,view_roty);
 }
 
 
@@ -94,14 +86,13 @@ La cámara mira al origen de coordenadas a una distancia D desde la posición an
 view_roty;
 
 **/
-void transformacionVisualizacion ()
-{
-  glTranslatef (0, 0, -D);
 
-  glRotatef (view_rotx, 1.0, 0.0, 0.0);
-  glRotatef (view_roty, 0.0, 1.0, 0.0);
+void transformacionVisualizacion(){
+  camara.aplicarTransformacion();
+}
 
-  // glTranslatef(-x_camara,-y_camara,-z_camara);
+void setXY(float newX, float newY){
+  camara.setXY(newX,newY);
 }
 
 /**	void fijaProyeccion()

@@ -41,6 +41,9 @@ modulo modelo.c
 #include "cubo.h"
 #include "material.h"
 #include "texturas.h"
+#include "light.h"
+#include "camara.h"
+#include "visual.h"
 
 using namespace std;
 
@@ -77,23 +80,28 @@ Textura texturaLata("./jpg/test.jpeg");
 Superficie lata("./plys/lata-pcue.ply",10,texturaLata);
 Superficie tapaAbajo("./plys/lata-pinf.ply",10);
 Superficie tapaArriba("./plys/lata-psup.ply",10);
+Superficie peon("./plys/perfil.ply",10);
 Superficie peon1("./plys/perfil.ply",10);
 Superficie peon2("./plys/perfil.ply",10);
 Superficie peon3("./plys/perfil.ply",10);
 Superficie peon4("./plys/perfil.ply",10,texturaLata);
+Malla beethoven("./plys/beethoven.ply");
+Light luces1;
+Light luces2;
 
 
 void initModel (){
   //Cargamos luces
   GLfloat pos0[] = { -1.0, 1.0, 1.0, 0.0 };
   GLfloat difusa0[] = { 1.0, 0.0, 0.0, 1.0 };
-  glLightfv(GL_LIGHT1, GL_POSITION, pos0);
-  glLightfv(GL_LIGHT1, GL_DIFFUSE, difusa0);
+  luces1.setID(GL_LIGHT1);
+  luces1.setPos(pos0);
+  luces1.setColor(GL_DIFFUSE,difusa0);
 
-  GLfloat pos1[] = { -5.0, -5.0, -10.0, 0.0 };
   GLfloat difusa1[] = { 0.0, 1.0, 0.0, 1.0 };
-  glLightfv(GL_LIGHT2, GL_POSITION, pos1);
-  glLightfv(GL_LIGHT2, GL_AMBIENT, difusa1);
+  luces2.setID(GL_LIGHT2);
+  luces2.setPos(pos0);
+  luces2.setColor(GL_DIFFUSE,difusa1);
 
   //Inicializamos modo
   modo=GL_FILL;
@@ -436,6 +444,88 @@ void draw( )
 
 Ejes ejesCoordenadas;
 
+void dibujaEscena(){
+  static GLfloat  pos[4] = { 5.0, 5.0, 10.0, 0.0 },color2[4]={0.0,0.0,1,1},color3[4]={0.17,0.34,0.17,1},color4[4]={0.14,0.15,0.31,1};	// Posicion de la fuente de luz
+
+  float  color[4] = { 1, 0.98, 0.98, 1 };
+
+  glPushMatrix ();		// Apila la transformacion geometrica actual
+
+  glClearColor (0.0, 0.0, 0.0, 1.0);	// Fija el color de fondo a negro
+
+  glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Inicializa el buffer de color y el Z-Buffer
+
+  transformacionVisualizacion ();	// Carga transformacion de visualizacion
+
+  glLightfv (GL_LIGHT0, GL_POSITION, pos);	// Declaracion de luz. Colocada aqui esta fija en la escena
+  ejesCoordenadas.draw();			// Dibuja los ejes
+  glEnable(GL_COLOR_MATERIAL);
+  glPointSize(5);
+
+  if(iluminacion){
+    glEnable(GL_LIGHTING);
+    if(luz1){
+      luces1.activarLuz();
+    }else{
+      luces1.desactivarLuz();
+    }
+    
+    if(luz2){
+      luces2.activarLuz();
+    }else{
+      luces2.desactivarLuz();
+    }
+  }else{
+    glDisable(GL_LIGHTING);
+  }
+
+  //Revolucion y PLY
+  glColor4fv(color);
+  peon.draw();
+  glTranslatef(-10,0,-5);
+  glColor4fv(color2);
+  beethoven.draw();
+  //Textura dado
+  glTranslatef(10,0,0);
+  glEnable(GL_TEXTURE_2D);
+  textura.cargarTextura();
+  glBindTexture(GL_TEXTURE_2D, cuboTextura.getIdTextura());
+  glColor4fv(color);
+  cuboTextura.drawTextura();
+  glDisable(GL_TEXTURE_2D);
+
+  //Robot
+  glColor4fv(color2);
+  glTranslatef(-3,0,5);
+  padre->draw();
+  rotarEjeY->setRotar(rotarTorso);
+  rotarEjeYTodo->setRotar(rotarTodo);
+  traslacionZ->setTraslacionZ(mover);
+  traslacionY->setTraslacionY(moverY);
+  cuerpo->changeDraw(dibujo);
+
+  //Peones
+  glTranslatef(10,0,0);
+  glColor4fv(color3);
+  peon1.drawSmooth();
+
+  //Textura Peon
+  glEnable(GL_TEXTURE_2D);
+  texturaLata.cargarTextura();
+  glBindTexture(GL_TEXTURE_2D, lata.getIdTextura());
+  glColor4fv(color);
+  glTranslatef(11,0,0);
+  peon4.drawTextura();
+  tapaAbajo.draw();
+  tapaArriba.draw();
+  glDisable(GL_TEXTURE_2D);
+
+  // Dibuja el modelo (A rellenar en prácticas 1,2 y 3)
+
+  glPolygonMode(GL_FRONT_AND_BACK,modo);   
+  glPopMatrix ();		// Desapila la transformacion geometrica
+}
+
 /**	void Dibuja( void )
 
 Procedimiento de dibujo del modelo. Es llamado por glut cada vez que se debe redibujar.
@@ -443,6 +533,17 @@ Procedimiento de dibujo del modelo. Es llamado por glut cada vez que se debe red
 **/
 
 void Dibuja (void)
+{ 
+  unsigned char color[4];
+  int identificador;
+  glDisable(GL_LIGHTING);
+  dibujaEscena();
+  glEnable(GL_LIGHTING);
+  //identificador=glReadPixels(x,y,1,1,GL_RGBA,GL_UNSIGNED_BYTE,color);
+  glutSwapBuffers ();		// Intercambia el buffer de dibujo y visualizacion
+}
+
+void DibujaP4 (void)
 {
   static GLfloat  pos[4] = { 5.0, 5.0, 10.0, 0.0 },color2[4]={1,0.05,0.052,1},color3[4]={0.17,0.34,0.17,1},color4[4]={0.14,0.15,0.31,1};	// Posicion de la fuente de luz
 
@@ -460,20 +561,19 @@ void Dibuja (void)
   ejesCoordenadas.draw();			// Dibuja los ejes
   glEnable(GL_COLOR_MATERIAL);
   glPointSize(5);
-  //glColor4fv(color2);
 
   if(iluminacion){
     glEnable(GL_LIGHTING);
     if(luz1){
-      glEnable(GL_LIGHT0);
+      luces1.activarLuz();
     }else{
-      glDisable(GL_LIGHT0);
+      luces1.desactivarLuz();
     }
     
     if(luz2){
-      glEnable(GL_LIGHT1);
+      luces2.activarLuz();
     }else{
-      glDisable(GL_LIGHT1);
+      luces2.desactivarLuz();
     }
   }else{
     glDisable(GL_LIGHTING);
@@ -716,5 +816,16 @@ void hacerAnimacion(){
       aumenta=1;
       aumentaMover=0.08;
     }
+}
+
+void colorSeleccion(int id, int componente){
+  unsigned char r=(id & 0xFF);
+  unsigned char g=(componente & 0xFF);
+  glColor3ub(r,g,0);
+}
+
+int decodificarColor(int r, int g){
+  int id=r|(g<<8);
+  return id;
 }
 

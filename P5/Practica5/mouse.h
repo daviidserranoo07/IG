@@ -27,7 +27,6 @@
 	mouse.h
 */
 
-
 void clickRaton (int boton, int estado, int x, int y);
 
 

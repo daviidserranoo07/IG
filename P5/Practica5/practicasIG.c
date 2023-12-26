@@ -130,6 +130,8 @@ int main (int argc, char *argv[])
     glutDisplayFunc (DibujaPLY);
   }else if(strcmp(argv[1],"--practica3")==0){
     glutDisplayFunc (DibujaP3);
+  }else if(strcmp(argv[1],"--practica3")==0){
+    glutDisplayFunc (DibujaP4);
   }
 
   glutReshapeFunc (inicializaVentana);
