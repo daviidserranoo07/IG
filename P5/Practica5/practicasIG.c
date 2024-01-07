@@ -107,6 +107,8 @@ int main (int argc, char *argv[])
       cout<<"La tecla 5 para poner el beethoven en vista planta"<<endl;
       cout<<"La tecla 6 para poner el beethoven en vista perfil"<<endl;
       cout<<"La tecla 7 para poner la escena por defecto"<<endl;
+      cout<<"-------------MENÚ-------------"<<endl;
+      cout<<"Primero se debe seleccionar el objeto con el click izquierdo del ratón "<<endl<<" y posteriormente hacer click derecho para que se habra el menú y seleccionar el color deseado para el objeto seleccionado"<<endl;
       exit(0);
     }
 

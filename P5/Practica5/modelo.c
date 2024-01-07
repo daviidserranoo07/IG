@@ -52,11 +52,12 @@ using namespace std;
 Inicializa el modelo y de las variables globales
 
 **/
-int modo,actual;
+typedef enum{SALIR,ROJO,VERDE,AZUL} opciones_menu;
+int modo,actual,menuColor,ID;
 bool iluminacion, dibujo, animacion, llegadoMas, llegadoMenos, fin, rapidoTodo, rapidoMovimiento, lentoTodo, lentoMovimiento, cargarTextura, cargarTexturaLata, luz1, luz2;
 float rotarTorso, mover, moverY, rotarTodo, obtener, aumenta, aumentaMover;
+float color[4] = {1, 0.98, 0.98, 1},color2[4] = {0.0, 0.0, 1, 1}, color3[4] = {0.17, 0.34, 0.17, 1}, color4[4] = {0.14, 0.15, 0.31, 1}, color5[4] = {0.14, 0.15, 0.31, 1}, color6[4] = {0.14, 0.15, 0.31, 1}; // Posicion de la fuente de luz;
 string ruta;
-vector<int> ID(255);
 
 Nodo *padre;
 Malla *cuerpo;
@@ -104,7 +105,7 @@ void initModel()
   luces2.setColor(GL_DIFFUSE, difusa1);
 
   // Inicializamos modo
-  modo = GL_FILL, actual=7;
+  modo = GL_FILL, actual=7, ID=0;
 
   // Inicializamos la ruta
   ruta = "";
@@ -153,6 +154,14 @@ void initModel()
   peon2.addMaterial(material1);
   peon3.addMaterial(material2);
   cuboTextura.addTextura(textura);
+
+  //Menú
+  menuColor=glutCreateMenu(menuColores);
+  glutAddMenuEntry("Rojo", ROJO);
+  glutAddMenuEntry("Verde", VERDE);
+  glutAddMenuEntry("Azul", AZUL);
+  glutAddMenuEntry("Salir",SALIR);
+  glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
 void entradaTeclado(char c)
@@ -528,9 +537,7 @@ Ejes ejesCoordenadas;
 
 void dibujaEscena(bool usarTextura)
 {
-  static GLfloat pos[4] = {5.0, 5.0, 10.0, 0.0}, color2[4] = {0.0, 0.0, 1, 1}, color3[4] = {0.17, 0.34, 0.17, 1}, color4[4] = {0.14, 0.15, 0.31, 1}; // Posicion de la fuente de luz
-
-  float color[4] = {1, 0.98, 0.98, 1};
+  static GLfloat pos[4] = {5.0, 5.0, 10.0, 0.0};
 
   glPushMatrix(); // Apila la transformacion geometrica actual
 
@@ -612,7 +619,7 @@ void dibujaEscena(bool usarTextura)
   // Textura dado
   glTranslatef(10, 0, 0);
   if(usarTextura){
-      glColor4fv(color);
+      glColor4fv(color3);
   }else{
       colorSeleccion(3, 100);
   }
@@ -626,7 +633,7 @@ void dibujaEscena(bool usarTextura)
 
   // Robot
   if(usarTextura){
-      glColor4fv(color2);
+      glColor4fv(color4);
   }else{
       colorSeleccion(4, 100);
   }
@@ -640,13 +647,17 @@ void dibujaEscena(bool usarTextura)
 
   // Peones
   glTranslatef(10, 0, 0);
-  colorSeleccion(5, 100);
+  if(usarTextura){
+      glColor4fv(color5);
+  }else{
+      colorSeleccion(5, 100);
+  }
   peon1.drawSmooth();
 
   // Textura Peon
   glTranslatef(11, 0, 0);
   if(usarTextura){
-      glColor4fv(color);
+      glColor4fv(color6);
   }else{
       colorSeleccion(6, 100);
   }
@@ -1015,4 +1026,115 @@ int seleccionarObjeto(int x, int y, int *i)
 
   glutPostRedisplay();
   return *i;
+}
+
+void menuColores(int opcion){
+  switch(opcion){
+		case ROJO:
+    if(ID==1){
+      color[0]=1.0;
+      color[1]=0.0;
+      color[2]=0.0;
+      color[3]=1;
+    }else if(ID==2){
+      color2[0]=1.0;
+      color2[1]=0.0;
+      color2[2]=0.0;
+      color2[3]=1;
+    }else if(ID==3){
+      color3[0]=1.0;
+      color3[1]=0.0;
+      color3[2]=0.0;
+      color3[3]=1;
+    }else if(ID==4){
+      color4[0]=1.0;
+      color4[1]=0.0;
+      color4[2]=0.0;
+      color4[3]=1;
+    }else if(ID==5){
+      color5[0]=1.0;
+      color5[1]=0.0;
+      color5[2]=0.0;
+      color5[3]=1;
+    }else if(ID==6){
+      color6[0]=1.0;
+      color6[1]=0.0;
+      color6[2]=0.0;
+      color6[3]=1;
+    }
+			break;
+		case AZUL:
+    if(ID==1){
+      color[0]=0.0;
+      color[1]=0.0;
+      color[2]=1.0;
+      color[3]=1;
+    }else if(ID==2){
+      color2[0]=0.0;
+      color2[1]=0.0;
+      color2[2]=1.0;
+      color2[3]=1;
+    }else if(ID==3){
+      color3[0]=0.0;
+      color3[1]=0.0;
+      color3[2]=1.0;
+      color3[3]=1;
+    }else if(ID==4){
+      color4[0]=0.0;
+      color4[1]=0.0;
+      color4[2]=1.0;
+      color4[3]=1;
+    }else if(ID==5){
+      color5[0]=0.0;
+      color5[1]=0.0;
+      color5[2]=1.0;
+      color5[3]=1;
+    }else if(ID==6){
+      color6[0]=0.0;
+      color6[1]=0.0;
+      color6[2]=1.0;
+      color6[3]=1;
+    }
+			break;
+    case VERDE:
+    if(ID==1){
+      color[0]=0.0;
+      color[1]=1.0;
+      color[2]=0.0;
+      color[3]=1;
+    }else if(ID==2){
+      color2[0]=0.0;
+      color2[1]=1.0;
+      color2[2]=0.0;
+      color2[3]=1;
+    }else if(ID==3){
+      color3[0]=0.0;
+      color3[1]=1.0;
+      color3[2]=0.0;
+      color3[3]=1;
+    }else if(ID==4){
+      color4[0]=0.0;
+      color4[1]=1.0;
+      color4[2]=0.0;
+      color4[3]=1;
+    }else if(ID==5){
+      color5[0]=0.0;
+      color5[1]=1.0;
+      color5[2]=0.0;
+      color5[3]=1;
+    }else if(ID==6){
+      color6[0]=0.0;
+      color6[1]=1.0;
+      color6[2]=0.0;
+      color6[3]=1;
+    }
+      break;
+    case SALIR:
+			break;
+	}
+	glutPostRedisplay();
+}
+
+void setID(int id){
+  ID=id;
 }

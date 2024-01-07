@@ -91,6 +91,12 @@ void colorSeleccion(int id, int componente);
 */
 int seleccionarObjeto(int x, int y, int * i);
 
+void seleccionMenu(int opcion);
+
+void menuColores(int opcion);
+
+void setID(int id);
+
 class Objeto3D : public Nodo
 {
 protected:

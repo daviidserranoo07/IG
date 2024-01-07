@@ -78,6 +78,7 @@ void clickRaton (int boton, int estado, int x, int y){
 			int objetoSeleccionado=0;
 			seleccionarObjeto(x,y,&objetoSeleccionado);
 			cout<<"Identificador del objeto seleccionado: "<<objetoSeleccionado<<endl;
+			setID(objetoSeleccionado);
 		}
 
 	}
