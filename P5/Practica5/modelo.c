@@ -539,7 +539,10 @@ void dibujaEscena(bool usarTextura)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Inicializa el buffer de color y el Z-Buffer
   transformacionVisualizacion(); // Carga transformacion de visualizacion
 
-  glEnable(GL_COLOR_MATERIAL);
+  if(usarTextura){
+      glEnable(GL_COLOR_MATERIAL);
+  }
+
   glPointSize(5);
 
   switch(actual){
@@ -593,14 +596,26 @@ void dibujaEscena(bool usarTextura)
   }
 
   // Revolucion y PLY
-  colorSeleccion(1, 100);
+  if(usarTextura){
+      glColor4fv(color);
+  }else{
+      colorSeleccion(1, 100);
+  }
   peon.draw();
   glTranslatef(-10, 0, -5);
-  colorSeleccion(2, 100);
+    if(usarTextura){
+      glColor4fv(color2);
+  }else{
+      colorSeleccion(2, 100);
+  }
   beethoven.draw();
   // Textura dado
   glTranslatef(10, 0, 0);
-  colorSeleccion(3, 100);
+  if(usarTextura){
+      glColor4fv(color);
+  }else{
+      colorSeleccion(3, 100);
+  }
   if(usarTextura){
     glEnable(GL_TEXTURE_2D);
     textura.cargarTextura();
@@ -610,7 +625,11 @@ void dibujaEscena(bool usarTextura)
   glDisable(GL_TEXTURE_2D);
 
   // Robot
-  colorSeleccion(4, 100);
+  if(usarTextura){
+      glColor4fv(color2);
+  }else{
+      colorSeleccion(4, 100);
+  }
   glTranslatef(-3, 0, 5);
   padre->draw();
   rotarEjeY->setRotar(rotarTorso);
@@ -625,9 +644,12 @@ void dibujaEscena(bool usarTextura)
   peon1.drawSmooth();
 
   // Textura Peon
-
   glTranslatef(11, 0, 0);
-  colorSeleccion(6, 100);
+  if(usarTextura){
+      glColor4fv(color);
+  }else{
+      colorSeleccion(6, 100);
+  }
   if (usarTextura)
   {
     glEnable(GL_TEXTURE_2D);

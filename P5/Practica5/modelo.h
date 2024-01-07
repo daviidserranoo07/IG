@@ -91,12 +91,6 @@ void colorSeleccion(int id, int componente);
 */
 int seleccionarObjeto(int x, int y, int * i);
 
-void alzado();
-
-void planta();
-
-void perfil();
-
 class Objeto3D : public Nodo
 {
 protected:
