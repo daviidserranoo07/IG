@@ -76,6 +76,10 @@ void setAngulo(float view_rotx, float view_roty){
   camara.setAngulo(view_rotx,view_roty);
 }
 
+Camara getCamara(){
+  return camara;
+}
+
 
 /** 	void transformacionVisualizacion()
 

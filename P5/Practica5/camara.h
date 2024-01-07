@@ -12,6 +12,8 @@ public:
     float getView_rotx();
     float getView_roty();
     float getDistancia();
+    float getX();
+    float getY();
     void setAngulo(float view_rotx, float view_roty);
     void setDistancia(float D);
     void setXY(float x,float y);

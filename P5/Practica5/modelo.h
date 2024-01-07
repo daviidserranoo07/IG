@@ -51,7 +51,7 @@ void DibujaSuperficie (void);
 /**
  * Dibuja la escena deseada
 */
-void dibujaEscena();
+void dibujaEscena(bool usarTextura);
 
 /**
 	Funcion de fondo
@@ -87,14 +87,15 @@ void hacerAnimacion();
 void colorSeleccion(int id, int componente);
 
 /**
- * Decodifica el color seleccionado
-*/
-int decodificarColor(int r, int g);
-
-/**
  * Selecciona un objeto en función de su color asignado
 */
-void seleccionarObjeto(int x, int y);
+int seleccionarObjeto(int x, int y, int * i);
+
+void alzado();
+
+void planta();
+
+void perfil();
 
 class Objeto3D : public Nodo
 {

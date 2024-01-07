@@ -82,13 +82,17 @@ x:
 y:
 
 **/
-float rotxCamara = 30, rotyCamara = 45, moverseX=0, moverseY=0;
+float rotxCamara = 30, rotyCamara = 45, moverseX=0, moverseZ=0;
 float dCamara = 10;
 
 
 void letra (unsigned char k, int x, int y)
 {
-  const float step=0.3f;
+  const float velocidadMovimiento=0.2f;
+  rotxCamara=getCamara().getView_rotx();
+  rotyCamara=getCamara().getView_roty();
+  moverseX=getCamara().getX();
+  moverseZ=getCamara().getY();
   switch (k)
     {
     case 'h':
@@ -165,21 +169,44 @@ void letra (unsigned char k, int x, int y)
       entradaTeclado('3');
       break;
     case 'w':
-      moverseY+=step;
+      moverseX-=velocidadMovimiento*sin(rotyCamara*M_PI/180.0);
+      moverseZ+=velocidadMovimiento*cos(rotyCamara*M_PI/180.0);
       break;
     case 'a':
-      moverseX+=step;
+      moverseX+=velocidadMovimiento*cos(rotyCamara*M_PI/180.0);
+      moverseZ+=velocidadMovimiento*sin(rotyCamara*M_PI/180.0);
       break;
     case 's':
-      moverseY-=step;
+      moverseX+=velocidadMovimiento*sin(rotyCamara*M_PI/180.0);
+      moverseZ-=velocidadMovimiento*cos(rotyCamara*M_PI/180.0);
       break;
     case 'd':
-      moverseX-=step;
+      moverseX-=velocidadMovimiento*cos(rotyCamara*M_PI/180.0);
+      moverseZ-=velocidadMovimiento*sin(rotyCamara*M_PI/180.0);
+      break;
+    case 'R':
+      moverseX=0;
+      moverseZ=0;
+      setXY(moverseX,moverseZ);
+      break;
+    case '4':
+      entradaTeclado('4');
+      break;
+    case '5':
+      entradaTeclado('5');
+      break;
+    case '6':
+      entradaTeclado('6');
+      break;
+    case '7':
+      entradaTeclado('7');
       break;
     default:
+      entradaTeclado(k);
       return;
     }
-  setXY(moverseX,moverseY);
+  setXY(moverseX,moverseZ);
+  setCamara(rotxCamara,rotyCamara,dCamara);
   glutPostRedisplay ();		// Algunas de las opciones cambian paramentros
 }				// de la camara. Es necesario actualziar la imagen
 

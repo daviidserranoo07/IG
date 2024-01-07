@@ -23,6 +23,14 @@ float Camara::getDistancia(){
     return this->D;
 }
 
+float Camara::getX(){
+    return this->moverX;
+}
+
+float Camara::getY(){
+    return this->moverY;
+}
+
 void Camara::setAngulo(float view_rotx, float view_roty){
     this->view_rotx=view_rotx;
     this->view_roty=view_roty;

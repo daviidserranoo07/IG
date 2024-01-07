@@ -96,6 +96,17 @@ int main (int argc, char *argv[])
       cout<<"La tecla l disminuye velocidad de giro de todo el robot"<<endl;
       cout<<"La tecla G aumenta velocidad de movimiento hacia arriba del robot"<<endl;
       cout<<"La tecla g disminuye velocidad de movimiento hacia arriba del robot"<<endl;
+      cout<<"-------------CÁMARA-------------"<<endl;
+      cout<<"La tecla w para moverse hacia adelante"<<endl;
+      cout<<"La tecla s para moverse hacia atrás"<<endl;
+      cout<<"La tecla a para moverse hacia la izquierda"<<endl;
+      cout<<"La tecla d para moverse hacia la derecha"<<endl;
+      cout<<"La tecla R para reiniciar posición"<<endl;
+      cout<<"-------------ALZADO,PLANTA Y PERFIL-------------"<<endl;
+      cout<<"La tecla 4 para poner el beethoven en vista alzado"<<endl;
+      cout<<"La tecla 5 para poner el beethoven en vista planta"<<endl;
+      cout<<"La tecla 6 para poner el beethoven en vista perfil"<<endl;
+      cout<<"La tecla 7 para poner la escena por defecto"<<endl;
       exit(0);
     }
 

@@ -32,10 +32,13 @@
 #include <stdlib.h>
 #include <math.h>
 #include <GL/glut.h>		// Libreria de utilidades de OpenGL
+#include <iostream>
 #include "practicasIG.h"
 #include "visual.h"
 #include "camara.h"
+#include <string>
 
+using namespace std;
 
 /**	 void clickRaton( int boton, int estado, int x, int y )
 
@@ -54,6 +57,12 @@ x,y: Posicion, en coordenadas de pantalla, en que se encuantra el cursor.
 bool MOVIENDO_CAMARA = false;
 int x_ant = 0;
 int y_ant = 0;
+float camaraDistancia = getCamara().getDistancia();
+float camaraAnguloX = getCamara().getView_rotx(); // Ángulo horizontal inicial
+float camaraAnguloY = getCamara().getView_roty(); // Ángulo vertical inicial
+float camaraPosX = getCamara().getX();   // Posición inicial X de la cámara
+float camaraPosY = getCamara().getY();    // Posición inicial Y de la cámara
+float camaraPosZ = 5.0;      // Posición inicial Z de la cámara
 
 void clickRaton (int boton, int estado, int x, int y){
 	if(boton==GLUT_MIDDLE_BUTTON){
@@ -64,6 +73,13 @@ void clickRaton (int boton, int estado, int x, int y){
 		}else{
 			MOVIENDO_CAMARA=false;
 		}
+	}else if(boton==GLUT_LEFT_BUTTON){
+		if(estado==GLUT_DOWN){
+			int objetoSeleccionado=0;
+			seleccionarObjeto(x,y,&objetoSeleccionado);
+			cout<<"Identificador del objeto seleccionado: "<<objetoSeleccionado<<endl;
+		}
+
 	}
 }
 
@@ -80,10 +96,26 @@ x,y: Posicion, en coordenadas de pantalla, en que se encuantra el cursor.
 
 void RatonMovido (int x, int y){
 	if(MOVIENDO_CAMARA){
-		setAngulo(x-x_ant,y-y_ant);
+		int deltaX=x-x_ant;
+		int deltaY=y-y_ant;
+
+		camaraAnguloX-=deltaY*0.5;
+		camaraAnguloY-=deltaX*0.5;
+
+		if(camaraAnguloY>89.0) camaraAnguloY=89.0;
+		if(camaraAnguloY<-89.0) camaraAnguloY=-89;
+
+		if(camaraAnguloX>89.0) camaraAnguloX=89.0;
+		if(camaraAnguloX<-89.0) camaraAnguloX=-89;
+
+		camaraPosY = camaraDistancia * cos(camaraAnguloY * M_PI / 180.0) * sin(camaraAnguloX * M_PI / 180.0);
+        camaraPosX = camaraDistancia * sin(camaraAnguloY * M_PI / 180.0);
+
+		setAngulo(camaraAnguloX,camaraAnguloY);
+
 		x_ant=x;
 		y_ant=y;
+
 		glutPostRedisplay();
 	}
-	
 }

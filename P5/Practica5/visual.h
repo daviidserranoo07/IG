@@ -69,3 +69,5 @@ void inicializaVentana (GLsizei ancho, GLsizei alto);
 void setXY(float newX, float newY);
 
 void setAngulo(float view_rotx, float view_roty);
+
+Camara getCamara();
